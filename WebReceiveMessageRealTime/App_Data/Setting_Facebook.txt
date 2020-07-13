@@ -1,0 +1,1 @@
+﻿{"ServerName":"103.57.208.163","CatalogName":"SOLIDDB_DEV","Username":"dev","Password":"S0l1dInterior@2018"}

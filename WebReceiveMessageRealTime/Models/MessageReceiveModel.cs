@@ -39,7 +39,7 @@ namespace WebReceiveMessageRealTime.Models
         public double time { get; set; }
         public List<MessagingModel> messaging { get; set; }
     }
-    public class MessageSendModel
+    public class MessageReceiveModel
     {
         public List<Entry> entry { get; set; }
     }

@@ -13,6 +13,9 @@ namespace WebReceiveMessageRealTime
         {
         }
     }
+}
+namespace WebReceiveMessageRealTime.Share
+{
     public class DatabaseConnect
     {
         public string stringMetadata = "FB_MessengerRealtime.csdl|res://*/FB_MessengerRealtime.ssdl|res://*/FB_MessengerRealtime.msl";

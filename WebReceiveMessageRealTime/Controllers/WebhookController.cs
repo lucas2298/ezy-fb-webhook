@@ -1,12 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using Ezy.Module.Facebook.Share;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebReceiveMessageRealTime.Models;
+using WebReceiveMessageRealTime.Share;
 
 namespace WebReceiveMessageRealTime.Controllers
 {
@@ -34,21 +37,29 @@ namespace WebReceiveMessageRealTime.Controllers
                 return new HttpResponseMessage(HttpStatusCode.Forbidden);
             }
         }
+        public static string connectionString {
+            get { return ShareDataHelper.GetConnectionStringFB(); }
+        } 
+        public static GetFBConversationEngine fbEngine
+        {
+            get { return ShareDataHelper.GetFBEngine(); }
+        }
         [HttpPost]
         public HttpResponseMessage Post(object data)
         {
+            var SaveDb = ConfigurationManager.AppSettings["FB_RealTimeSaveDB"];
             var dataString = data.ToString();
             jsonString = dataString;
             var response = new HttpResponseMessage(HttpStatusCode.OK);
-            var jsonObject = JsonConvert.DeserializeObject<MessageSendModel>(jsonString);
-            //var dataObjects = jsonObject.entry;
+            var jsonObject = JsonConvert.DeserializeObject<MessageReceiveModel>(jsonString);
+            // customers lưu tất cả các id khách hàng để gửi về lại cho engine
+            string customers = string.Empty;
+            var db = new DatabaseConnect(connectionString);
             foreach (var dataObjects in jsonObject.entry)
             {
                 long time = Convert.ToInt64(dataObjects.time / 1000);
-                DateTime dateTime = new System.DateTime(1970, 1, 1, 7, 0, 0, 0);
+                DateTime dateTime = new DateTime(1970, 1, 1, 7, 0, 0, 0);
                 dateTime = dateTime.AddSeconds(time);
-                string connectionString = "data source=sqldev.allianceitsc.com;initial catalog=SOLIDDB_DEV;persist security info=True;user id=dev;password=S0l1dInterior@2018;";
-                var db = new DatabaseConnect(connectionString);
                 var message = dataObjects.messaging[0].message.text;
                 if (message != string.Empty && message != null)
                 {
@@ -59,6 +70,7 @@ namespace WebReceiveMessageRealTime.Controllers
                         TimeSend = dateTime,
                         Message = message
                     };
+                    customers += item.SenderId.ToString() + ',';
                     db.Add(item);
                 }
                 else
@@ -82,10 +94,17 @@ namespace WebReceiveMessageRealTime.Controllers
                             }
                         }
                         db.AddRange(listItem);
+                        customers += listItem[0].SenderId.ToString() + ',';
                     }
                 }
-                db.SaveChanges();
+                if (SaveDb == "1") db.SaveChanges();
             }
+            try
+            {
+                fbEngine.PushCustomer(customers);
+            }
+            catch (Exception ex)
+            { }
             return response;
         }
         [Route("GetDataString")]
