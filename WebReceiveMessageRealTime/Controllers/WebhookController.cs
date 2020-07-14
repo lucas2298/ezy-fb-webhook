@@ -94,14 +94,16 @@ namespace WebReceiveMessageRealTime.Controllers
                             }
                         }
                         db.AddRange(listItem);
-                        customers += listItem[0].SenderId.ToString() + ',';
+                        if (listItem.Count > 0)
+                            customers += listItem[0].SenderId.ToString() + ',';
                     }
                 }
                 if (SaveDb == "1") db.SaveChanges();
             }
             try
             {
-                fbEngine.PushCustomer(customers);
+                if (customers != string.Empty)
+                    fbEngine.PushCustomer(customers);
             }
             catch (Exception ex)
             { }
