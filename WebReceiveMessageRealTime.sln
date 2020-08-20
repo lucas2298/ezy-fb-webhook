@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.960
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebReceiveMessageRealTime", "WebReceiveMessageRealTime\WebReceiveMessageRealTime.csproj", "{5D1CDB81-8E0E-44DF-BDFB-D0DF263A2871}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alliance.Auto.Bank.Client", "Alliance.Auto.Bank.Socket.Client\Alliance.Auto.Bank.Client.csproj", "{6D55E349-5482-40CF-9483-3AD44592D46F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{5D1CDB81-8E0E-44DF-BDFB-D0DF263A2871}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D1CDB81-8E0E-44DF-BDFB-D0DF263A2871}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D1CDB81-8E0E-44DF-BDFB-D0DF263A2871}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D55E349-5482-40CF-9483-3AD44592D46F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D55E349-5482-40CF-9483-3AD44592D46F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D55E349-5482-40CF-9483-3AD44592D46F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D55E349-5482-40CF-9483-3AD44592D46F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

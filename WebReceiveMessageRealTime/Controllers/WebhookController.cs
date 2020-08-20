@@ -54,6 +54,7 @@ namespace WebReceiveMessageRealTime.Controllers
             var jsonObject = JsonConvert.DeserializeObject<MessageReceiveModel>(jsonString);
             // customers lưu tất cả các id khách hàng để gửi về lại cho engine
             string customers = string.Empty;
+            var temp = connectionString;
             var db = new DatabaseConnect(connectionString);
             foreach (var dataObjects in jsonObject.entry)
             {
@@ -71,6 +72,7 @@ namespace WebReceiveMessageRealTime.Controllers
                         Message = message
                     };
                     customers += item.SenderId.ToString() + ',';
+                    ShareDataHelper.CheckIsTransfer_Msg(message);
                     db.Add(item);
                 }
                 else
@@ -91,6 +93,7 @@ namespace WebReceiveMessageRealTime.Controllers
                                     ImageUrl = sItem.payload.url
                                 };
                                 listItem.Add(item);
+                                ShareDataHelper.CheckIsTransfer_Img(sItem.payload.url);
                             }
                         }
                         db.AddRange(listItem);

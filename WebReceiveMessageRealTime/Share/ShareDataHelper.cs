@@ -2,16 +2,26 @@
 using Ezy.Module.MSSQLRepository.Connection;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 using Ezy.Module.Facebook.Package.MSSQL;
+using Tesseract;
+using System.IO;
+using System.Web.Hosting;
+using System.Drawing;
+using Alliance.Auto.Bank.Client;
+using System.Text;
+using System.Linq;
+using System.Globalization;
 
 namespace WebReceiveMessageRealTime.Share
 {
     public static class ShareDataHelper
     {
         private static string sConnectionString = string.Empty;
+        private static string tessPath = HostingEnvironment.MapPath(@"~/tessdata");
+        private static string baseStringPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "BaseString.txt");
+        private static string[] baseStringList = File.ReadAllText(baseStringPath).Replace("\r", "").Replace(",", "").Split('\n');
         public static string GetConnectionStringFB()
         {
             if (sConnectionString == string.Empty)
@@ -19,6 +29,88 @@ namespace WebReceiveMessageRealTime.Share
                 sConnectionString = DataConnectionManager.GetSimpleConnectionString("Setting_Facebook.txt");
             }
             return sConnectionString;
+        }
+        public static System.Drawing.Image DownloadImageFromUrl(string imageUrl)
+        {
+            System.Drawing.Image image = null;
+
+            try
+            {
+                System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(imageUrl);
+                webRequest.AllowWriteStreamBuffering = true;
+                webRequest.Timeout = 30000;
+
+                System.Net.WebResponse webResponse = webRequest.GetResponse();
+
+                System.IO.Stream stream = webResponse.GetResponseStream();
+
+                image = System.Drawing.Image.FromStream(stream);
+
+                webResponse.Close();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+            return image;
+        }
+        private static void SignalDownloadExcel()
+        {
+            try
+            {
+                BankClient.StartClient();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        public static void CheckIsTransfer_Img(string Url)
+        {
+            bool flag = false;
+            
+            //var img = DownloadImageFromUrl(Url);
+            var img = Pix.LoadFromFile(@"D:\WebReceiveMessageRealTime\WebReceiveMessageRealTime\Image\VCB.png");
+            //Bitmap bmp = (Bitmap)img;
+            //Pix imgPix = PixConverter.ToPix(bmp);
+            using (TesseractEngine Orc = new TesseractEngine(tessPath, "eng", EngineMode.Default))
+            {
+                var res = Orc.Process(img);
+                var text = StringNormalize(res.GetText());
+                foreach (var sKey in baseStringList)
+                {
+                    var key = StringNormalize(sKey);
+                    if (text.Contains(key)) flag = true;
+                }
+            }
+            if (flag == true) SignalDownloadExcel();
+        }
+        private static string RemoveDiacritics(string text)
+        {
+            return string.Concat(
+                text.Normalize(NormalizationForm.FormD)
+                .Where(ch => CharUnicodeInfo.GetUnicodeCategory(ch) !=
+                                              UnicodeCategory.NonSpacingMark)
+              ).Normalize(NormalizationForm.FormC);
+        }
+        private static string StringNormalize(string s)
+        {
+            var result = string.Empty;
+            s = RemoveDiacritics(s);
+            s = s.ToLower();
+            return result;
+        }
+        public static void CheckIsTransfer_Msg(string Msg)
+        {
+            bool flag = false;
+            Msg = StringNormalize(Msg);
+            foreach (var sKey in baseStringList)
+            {
+                var key = StringNormalize(sKey);
+                if (Msg.Contains(key)) flag = true;
+            }
+            if (flag == true) SignalDownloadExcel();
         }
         private static GetFBConversationEngine engine;
         public static GetFBConversationEngine GetFBEngine()
