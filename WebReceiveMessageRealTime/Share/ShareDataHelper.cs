@@ -55,36 +55,43 @@ namespace WebReceiveMessageRealTime.Share
 
             return image;
         }
-        private static void SignalDownloadExcel()
+        private static string SignalDownloadExcel()
         {
+            var sMessage = SocketClient_UDP.StartClient();
+            return sMessage;
+        }
+        public static string CheckIsTransfer_Img(string Url, out string sMessage)
+        {
+            bool flag = false;
+            sMessage = string.Empty;
+            string result = string.Empty;
             try
             {
-                BankClient.StartClient();
+                var img = DownloadImageFromUrl(Url);
+                Bitmap bmp = (Bitmap)img;
+                Pix imgPix = PixConverter.ToPix(bmp);
+                using (TesseractEngine Orc = new TesseractEngine(tessPath, "eng", EngineMode.Default))
+                {
+                    var res = Orc.Process(imgPix);
+                    var text = StringNormalize(res.GetText());
+                    result = text;
+                    foreach (var sKey in baseStringList)
+                    {
+                        var key = StringNormalize(sKey);
+                        if (text.Contains(key))
+                        {
+                            flag = true;
+                            break;
+                        }
+                    }
+                }
+                if (flag == true) sMessage = SignalDownloadExcel();
             }
             catch (Exception ex)
             {
-
+                sMessage = ex.Message;
             }
-        }
-        public static void CheckIsTransfer_Img(string Url)
-        {
-            bool flag = false;
-            
-            //var img = DownloadImageFromUrl(Url);
-            var img = Pix.LoadFromFile(@"D:\WebReceiveMessageRealTime\WebReceiveMessageRealTime\Image\VCB.png");
-            //Bitmap bmp = (Bitmap)img;
-            //Pix imgPix = PixConverter.ToPix(bmp);
-            using (TesseractEngine Orc = new TesseractEngine(tessPath, "eng", EngineMode.Default))
-            {
-                var res = Orc.Process(img);
-                var text = StringNormalize(res.GetText());
-                foreach (var sKey in baseStringList)
-                {
-                    var key = StringNormalize(sKey);
-                    if (text.Contains(key)) flag = true;
-                }
-            }
-            if (flag == true) SignalDownloadExcel();
+            return result;
         }
         private static string RemoveDiacritics(string text)
         {
@@ -99,18 +106,24 @@ namespace WebReceiveMessageRealTime.Share
             var result = string.Empty;
             s = RemoveDiacritics(s);
             s = s.ToLower();
-            return result;
+            return s;
         }
-        public static void CheckIsTransfer_Msg(string Msg)
+        public static string CheckIsTransfer_Msg(string Msg)
         {
+            var sMessage = string.Empty;
             bool flag = false;
             Msg = StringNormalize(Msg);
             foreach (var sKey in baseStringList)
             {
                 var key = StringNormalize(sKey);
-                if (Msg.Contains(key)) flag = true;
+                if (Msg.Contains(key))
+                {
+                    flag = true;
+                    break;
+                }
             }
-            if (flag == true) SignalDownloadExcel();
+            if (flag == true) sMessage = SignalDownloadExcel();
+            return sMessage;
         }
         private static GetFBConversationEngine engine;
         public static GetFBConversationEngine GetFBEngine()

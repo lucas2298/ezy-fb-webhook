@@ -198,6 +198,12 @@
     <Compile Include="Controllers\PinterestController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\WebhookController.cs" />
+    <Compile Include="Fb_ImageOrcConvert.cs">
+      <DependentUpon>FB_MessengerRealtime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FB_Log.cs">
+      <DependentUpon>FB_MessengerRealtime.tt</DependentUpon>
+    </Compile>
     <Compile Include="FB_MessengerRealtime.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -229,6 +235,9 @@
     </Compile>
     <Compile Include="Share\DatabaseConnect.cs" />
     <Compile Include="Share\ShareDataHelper.cs" />
+    <Compile Include="sp_FB_GetListConversationIds_Result.cs">
+      <DependentUpon>FB_MessengerRealtime.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Setting_Facebook.txt" />

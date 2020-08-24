@@ -12,6 +12,8 @@ namespace WebReceiveMessageRealTime
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class SOLIDDB_DEVEntities : DbContext
     {
@@ -25,6 +27,17 @@ namespace WebReceiveMessageRealTime
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Fb_ImageOrcConvert> Fb_ImageOrcConvert { get; set; }
         public virtual DbSet<FB_MessengerRealtime> FB_MessengerRealtime { get; set; }
+        public virtual DbSet<FB_Log> FB_Log { get; set; }
+    
+        public virtual ObjectResult<sp_FB_GetListConversationIds_Result> sp_FB_GetListConversationIds(string listCustomerIds)
+        {
+            var listCustomerIdsParameter = listCustomerIds != null ?
+                new ObjectParameter("listCustomerIds", listCustomerIds) :
+                new ObjectParameter("listCustomerIds", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_FB_GetListConversationIds_Result>("sp_FB_GetListConversationIds", listCustomerIdsParameter);
+        }
     }
 }

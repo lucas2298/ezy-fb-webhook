@@ -19,23 +19,41 @@ namespace WebReceiveMessageRealTime.Share
     public class DatabaseConnect
     {
         public string stringMetadata = "FB_MessengerRealtime.csdl|res://*/FB_MessengerRealtime.ssdl|res://*/FB_MessengerRealtime.msl";
+        private static string sConnect = string.Empty;
         public DatabaseConnect(string connectionString)
         {
-            var sConnect = DataConnectionManager.GetDataConnectionString_With_ConnectionString(connectionString, stringMetadata);
+            sConnect = DataConnectionManager.GetDataConnectionString_With_ConnectionString(connectionString, stringMetadata);
             db = new SOLIDDB_DEVEntities(sConnect);
+        }
+        public string GetsConnect()
+        {
+            return sConnect;
         }
         ~DatabaseConnect()
         {
             db.Dispose();
         }
         private SOLIDDB_DEVEntities db;
-        public void Add(FB_MessengerRealtime item)
+        public void Add_FB_MessengerRealtime(FB_MessengerRealtime item)
         {
             db.FB_MessengerRealtime.Add(item);
         }
-        public void AddRange(List<FB_MessengerRealtime> listItem)
+        public void AddRange_FB_MessengerRealtime(List<FB_MessengerRealtime> listItem)
         {
             db.FB_MessengerRealtime.AddRange(listItem);
+        }
+        public sp_FB_GetListConversationIds_Result sp_FB_GetListConversationIds_Run(string customerId)
+        {
+            var data = db.sp_FB_GetListConversationIds(customerId).LastOrDefault();
+            return data;
+        }
+        public void Add_ImageOrcText(Fb_ImageOrcConvert item)
+        {
+            db.Fb_ImageOrcConvert.Add(item);
+        }
+        public void AddRange_ImageOrcText(List<Fb_ImageOrcConvert> item)
+        {
+            db.Fb_ImageOrcConvert.AddRange(item);
         }
         public void SaveChanges()
         {

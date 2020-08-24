@@ -12,18 +12,18 @@ namespace WebReceiveMessageRealTime
     using System;
     using System.Collections.Generic;
     
-    public partial class FB_MessengerRealtime
+    public partial class FB_Log
     {
         public long Id { get; set; }
-        public long SenderId { get; set; }
-        public long RecipientId { get; set; }
-        public Nullable<System.DateTime> TimeSend { get; set; }
+        public string Method { get; set; }
         public string Message { get; set; }
-        public string ImageUrl { get; set; }
+        public bool IsDeleted { get; set; }
         public Nullable<System.DateTime> Log_CreatedDate { get; set; }
         public string Log_CreatedBy { get; set; }
         public Nullable<System.DateTime> Log_UpdatedDate { get; set; }
         public string Log_UpdatedBy { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDisable { get; set; }
+        public string Note { get; set; }
+        public byte[] Timestamp { get; set; }
     }
 }
