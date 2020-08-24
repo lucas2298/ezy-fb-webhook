@@ -19,22 +19,7 @@
           <Property Name="Log_CreatedBy" Type="nvarchar" MaxLength="500" />
           <Property Name="Log_UpdatedDate" Type="datetime" />
           <Property Name="Log_UpdatedBy" Type="nvarchar" MaxLength="500" />
-        </EntityType>
-        <EntityType Name="FB_Log">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Method" Type="nvarchar" MaxLength="500" />
-          <Property Name="Message" Type="nvarchar(max)" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
-          <Property Name="Log_CreatedDate" Type="datetime" />
-          <Property Name="Log_CreatedBy" Type="nvarchar" MaxLength="500" />
-          <Property Name="Log_UpdatedDate" Type="datetime" />
-          <Property Name="Log_UpdatedBy" Type="nvarchar" MaxLength="500" />
-          <Property Name="IsDisable" Type="bit" Nullable="false" />
-          <Property Name="Note" Type="nvarchar(max)" />
-          <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="IsBankTransfer" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="FB_MessengerRealtime">
           <Key>
@@ -57,7 +42,6 @@
         </Function>
         <EntityContainer Name="SOLIDDB_DEVModelStoreContainer">
           <EntitySet Name="Fb_ImageOrcConvert" EntityType="Self.Fb_ImageOrcConvert" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="FB_Log" EntityType="Self.FB_Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FB_MessengerRealtime" EntityType="Self.FB_MessengerRealtime" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -70,7 +54,6 @@
           </FunctionImport>
           <EntitySet Name="Fb_ImageOrcConvert" EntityType="SOLIDDB_DEVModel.Fb_ImageOrcConvert" />
           <EntitySet Name="FB_MessengerRealtime" EntityType="SOLIDDB_DEVModel.FB_MessengerRealtime" />
-          <EntitySet Name="FB_Log" EntityType="SOLIDDB_DEVModel.FB_Log" />
         </EntityContainer>
         <ComplexType Name="sp_FB_GetListConversationIds_Result">
           <Property Type="String" Name="ConversationId" Nullable="false" MaxLength="250" />
@@ -93,6 +76,7 @@
           <Property Name="Log_CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Log_UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="Log_UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsBankTransfer" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="FB_MessengerRealtime">
           <Key>
@@ -109,22 +93,6 @@
           <Property Name="Log_UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="Log_UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="FB_Log">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Method" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="Log_CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Log_CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Log_UpdatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Log_UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="IsDisable" Type="Boolean" Nullable="false" />
-          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Timestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -146,6 +114,7 @@
           <EntitySetMapping Name="Fb_ImageOrcConvert">
             <EntityTypeMapping TypeName="SOLIDDB_DEVModel.Fb_ImageOrcConvert">
               <MappingFragment StoreEntitySet="Fb_ImageOrcConvert">
+                <ScalarProperty Name="IsBankTransfer" ColumnName="IsBankTransfer" />
                 <ScalarProperty Name="Log_UpdatedBy" ColumnName="Log_UpdatedBy" />
                 <ScalarProperty Name="Log_UpdatedDate" ColumnName="Log_UpdatedDate" />
                 <ScalarProperty Name="Log_CreatedBy" ColumnName="Log_CreatedBy" />
@@ -172,23 +141,6 @@
                 <ScalarProperty Name="TimeSend" ColumnName="TimeSend" />
                 <ScalarProperty Name="RecipientId" ColumnName="RecipientId" />
                 <ScalarProperty Name="SenderId" ColumnName="SenderId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FB_Log">
-            <EntityTypeMapping TypeName="SOLIDDB_DEVModel.FB_Log">
-              <MappingFragment StoreEntitySet="FB_Log">
-                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="IsDisable" ColumnName="IsDisable" />
-                <ScalarProperty Name="Log_UpdatedBy" ColumnName="Log_UpdatedBy" />
-                <ScalarProperty Name="Log_UpdatedDate" ColumnName="Log_UpdatedDate" />
-                <ScalarProperty Name="Log_CreatedBy" ColumnName="Log_CreatedBy" />
-                <ScalarProperty Name="Log_CreatedDate" ColumnName="Log_CreatedDate" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="Method" ColumnName="Method" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

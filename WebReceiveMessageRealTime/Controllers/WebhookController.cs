@@ -97,7 +97,8 @@ namespace WebReceiveMessageRealTime.Controllers
                                         ImageUrl = sItem.payload.url
                                     };
                                     listItem.Add(item);
-                                    var imageText = ShareDataHelper.CheckIsTransfer_Img(sItem.payload.url, out sMessage);
+                                    string imageText;
+                                    bool flag = ShareDataHelper.CheckIsTransfer_Img(sItem.payload.url, out imageText, out sMessage);
                                     var customer = db.sp_FB_GetListConversationIds_Run(dataObjects.messaging[0].sender.id);
                                     if (customer != null)
                                     {
@@ -106,7 +107,8 @@ namespace WebReceiveMessageRealTime.Controllers
                                             ConversationId = customer.ConversationId,
                                             CustomerFbName = customer.CustomerName,
                                             LinkToChat = customer.LinkToChat,
-                                            ImageText = imageText
+                                            ImageText = imageText,
+                                            IsBankTransfer = flag
                                         };
                                         listImageText.Add(_item);
                                     }

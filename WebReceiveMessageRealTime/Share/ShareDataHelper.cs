@@ -60,11 +60,11 @@ namespace WebReceiveMessageRealTime.Share
             var sMessage = SocketClient_UDP.StartClient();
             return sMessage;
         }
-        public static string CheckIsTransfer_Img(string Url, out string sMessage)
+        public static bool CheckIsTransfer_Img(string Url, out string imageText, out string sMessage)
         {
             bool flag = false;
             sMessage = string.Empty;
-            string result = string.Empty;
+            imageText = string.Empty;
             try
             {
                 var img = DownloadImageFromUrl(Url);
@@ -74,7 +74,7 @@ namespace WebReceiveMessageRealTime.Share
                 {
                     var res = Orc.Process(imgPix);
                     var text = StringNormalize(res.GetText());
-                    result = text;
+                    imageText = text;
                     foreach (var sKey in baseStringList)
                     {
                         var key = StringNormalize(sKey);
@@ -85,13 +85,16 @@ namespace WebReceiveMessageRealTime.Share
                         }
                     }
                 }
-                if (flag == true) sMessage = SignalDownloadExcel();
+                if (flag == true)
+                {
+                    sMessage = SignalDownloadExcel();
+                }
             }
             catch (Exception ex)
             {
                 sMessage = ex.Message;
             }
-            return result;
+            return flag;
         }
         private static string RemoveDiacritics(string text)
         {
