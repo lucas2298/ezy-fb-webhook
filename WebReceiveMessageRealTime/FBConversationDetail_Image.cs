@@ -12,18 +12,18 @@ namespace WebReceiveMessageRealTime
     using System;
     using System.Collections.Generic;
     
-    public partial class Fb_ImageOrcConvert
+    public partial class FBConversationDetail_Image
     {
         public long Id { get; set; }
         public string ConversationId { get; set; }
         public string CustomerFbName { get; set; }
         public string LinkToChat { get; set; }
         public string ImageText { get; set; }
+        public bool IsBankTransfer { get; set; }
         public bool IsDeleted { get; set; }
         public Nullable<System.DateTime> Log_CreatedDate { get; set; }
         public string Log_CreatedBy { get; set; }
         public Nullable<System.DateTime> Log_UpdatedDate { get; set; }
         public string Log_UpdatedBy { get; set; }
-        public bool IsBankTransfer { get; set; }
     }
 }

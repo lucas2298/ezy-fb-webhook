@@ -198,7 +198,7 @@
     <Compile Include="Controllers\PinterestController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\WebhookController.cs" />
-    <Compile Include="Fb_ImageOrcConvert.cs">
+    <Compile Include="FBConversationDetail_Image.cs">
       <DependentUpon>FB_MessengerRealtime.tt</DependentUpon>
     </Compile>
     <Compile Include="FB_MessengerRealtime.Context.cs">

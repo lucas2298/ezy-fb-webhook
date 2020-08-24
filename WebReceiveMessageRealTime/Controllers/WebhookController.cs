@@ -81,7 +81,7 @@ namespace WebReceiveMessageRealTime.Controllers
                     else
                     {
                         var attachements = dataObjects.messaging[0].message.Attachments;
-                        List<Fb_ImageOrcConvert> listImageText = new List<Fb_ImageOrcConvert>();
+                        List<FBConversationDetail_Image> listImageText = new List<FBConversationDetail_Image>();
                         var listItem = new List<FB_MessengerRealtime>();
                         if (attachements != null && attachements.Count > 0)
                         {
@@ -102,7 +102,7 @@ namespace WebReceiveMessageRealTime.Controllers
                                     var customer = db.sp_FB_GetListConversationIds_Run(dataObjects.messaging[0].sender.id);
                                     if (customer != null)
                                     {
-                                        var _item = new Fb_ImageOrcConvert()
+                                        var _item = new FBConversationDetail_Image()
                                         {
                                             ConversationId = customer.ConversationId,
                                             CustomerFbName = customer.CustomerName,
@@ -116,7 +116,7 @@ namespace WebReceiveMessageRealTime.Controllers
                             }
                             if (listImageText != null && listImageText.Count > 0)
                             {
-                                db.AddRange_ImageOrcText(listImageText);
+                                db.AddRange_FBConversationDetail_Image(listImageText);
                                 db.SaveChanges();
                             }
                             if (listItem != null && listItem.Count > 0)

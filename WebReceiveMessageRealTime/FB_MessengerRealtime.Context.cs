@@ -27,8 +27,8 @@ namespace WebReceiveMessageRealTime
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Fb_ImageOrcConvert> Fb_ImageOrcConvert { get; set; }
         public virtual DbSet<FB_MessengerRealtime> FB_MessengerRealtime { get; set; }
+        public virtual DbSet<FBConversationDetail_Image> FBConversationDetail_Image { get; set; }
     
         public virtual ObjectResult<sp_FB_GetListConversationIds_Result> sp_FB_GetListConversationIds(string listCustomerIds)
         {

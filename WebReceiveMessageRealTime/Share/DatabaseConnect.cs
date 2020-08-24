@@ -47,13 +47,13 @@ namespace WebReceiveMessageRealTime.Share
             var data = db.sp_FB_GetListConversationIds(customerId).LastOrDefault();
             return data;
         }
-        public void Add_ImageOrcText(Fb_ImageOrcConvert item)
+        public void Add_FBConversationDetail_Image(FBConversationDetail_Image item)
         {
-            db.Fb_ImageOrcConvert.Add(item);
+            db.FBConversationDetail_Image.Add(item);
         }
-        public void AddRange_ImageOrcText(List<Fb_ImageOrcConvert> item)
+        public void AddRange_FBConversationDetail_Image(List<FBConversationDetail_Image> item)
         {
-            db.Fb_ImageOrcConvert.AddRange(item);
+            db.FBConversationDetail_Image.AddRange(item);
         }
         public void SaveChanges()
         {

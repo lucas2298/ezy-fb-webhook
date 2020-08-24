@@ -5,8 +5,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1f07195199a04363841762c720fd5a82" Name="Diagram1">
-        <EntityTypeShape EntityType="SOLIDDB_DEVModel.Fb_ImageOrcConvert" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="SOLIDDB_DEVModel.FB_MessengerRealtime" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SOLIDDB_DEVModel.FBConversationDetail_Image" Width="1.5" PointX="0.75" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
