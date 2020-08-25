@@ -31,6 +31,7 @@
           <Property Name="LinkToChat" Type="nvarchar(max)" />
           <Property Name="ImageText" Type="nvarchar(max)" />
           <Property Name="IsBankTransfer" Type="bit" Nullable="false" />
+          <Property Name="TimeReceiveFromSource" Type="datetime" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="Log_CreatedDate" Type="datetime" />
           <Property Name="Log_CreatedBy" Type="nvarchar" MaxLength="500" />
@@ -88,6 +89,7 @@
           <Property Name="LinkToChat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ImageText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsBankTransfer" Type="Boolean" Nullable="false" />
+          <Property Name="TimeReceiveFromSource" Type="DateTime" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="Log_CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Log_CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
@@ -136,6 +138,7 @@
                 <ScalarProperty Name="Log_CreatedBy" ColumnName="Log_CreatedBy" />
                 <ScalarProperty Name="Log_CreatedDate" ColumnName="Log_CreatedDate" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="TimeReceiveFromSource" ColumnName="TimeReceiveFromSource" />
                 <ScalarProperty Name="IsBankTransfer" ColumnName="IsBankTransfer" />
                 <ScalarProperty Name="ImageText" ColumnName="ImageText" />
                 <ScalarProperty Name="LinkToChat" ColumnName="LinkToChat" />

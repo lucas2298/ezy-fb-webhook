@@ -59,6 +59,7 @@ namespace WebReceiveMessageRealTime.Controllers
                 // customers lưu tất cả các id khách hàng để gửi về lại cho engine
                 string customers = string.Empty;
                 var db = new DatabaseConnect(connectionString);
+                var listImageDetail = new List<ImageDetailModel>();
                 foreach (var dataObjects in jsonObject.entry)
                 {
                     long time = Convert.ToInt64(dataObjects.time / 1000);
@@ -76,12 +77,15 @@ namespace WebReceiveMessageRealTime.Controllers
                         };
                         customers += item.SenderId.ToString() + ',';
                         sMessage = ShareDataHelper.CheckIsTransfer_Msg(message);
-                        db.Add_FB_MessengerRealtime(item);
+                        if (SaveDb == "1")
+                        {
+                            db.Add_FB_MessengerRealtime(item);
+                            db.SaveChanges();
+                        }
                     }
                     else
                     {
                         var attachements = dataObjects.messaging[0].message.Attachments;
-                        List<FBConversationDetail_Image> listImageText = new List<FBConversationDetail_Image>();
                         var listItem = new List<FB_MessengerRealtime>();
                         if (attachements != null && attachements.Count > 0)
                         {
@@ -97,40 +101,53 @@ namespace WebReceiveMessageRealTime.Controllers
                                         ImageUrl = sItem.payload.url
                                     };
                                     listItem.Add(item);
-                                    string imageText;
-                                    bool flag = ShareDataHelper.CheckIsTransfer_Img(sItem.payload.url, out imageText, out sMessage);
-                                    var customer = db.sp_FB_GetListConversationIds_Run(dataObjects.messaging[0].sender.id);
-                                    if (customer != null)
-                                    {
-                                        var _item = new FBConversationDetail_Image()
-                                        {
-                                            ConversationId = customer.ConversationId,
-                                            CustomerFbName = customer.CustomerName,
-                                            LinkToChat = customer.LinkToChat,
-                                            ImageText = imageText,
-                                            IsBankTransfer = flag
-                                        };
-                                        listImageText.Add(_item);
-                                    }
+                                    listImageDetail.Add(new ImageDetailModel() {
+                                        Url = item.ImageUrl,
+                                        TimeReceiveFromSource = item.TimeSend,
+                                        SenderId = item.SenderId.ToString()
+                                    });
                                 }
                             }
-                            if (listImageText != null && listImageText.Count > 0)
-                            {
-                                db.AddRange_FBConversationDetail_Image(listImageText);
-                                db.SaveChanges();
-                            }
-                            if (listItem != null && listItem.Count > 0)
+                            if (listItem != null && listItem.Count > 0 && SaveDb == "1")
                             {
                                 db.AddRange_FB_MessengerRealtime(listItem);
                                 customers += listItem[0].SenderId.ToString() + ',';
+                                db.SaveChanges();
                             }
                         }
                     }
-                    if (SaveDb == "1")
+                }
+                //Vì dịch ảnh sang text nên sẽ lâu, gây ra hiện tượng timeout cho một request của facebook
+                //=> Facebook không nhận được tín hiệu 200 nên sẽ gửi tín hiệu liên tục
+                //=> Dùng task để chạy ngầm, đảm bảo không bị timeout khi fb request
+                Task.Run(() => {
+                    List<FBConversationDetail_Image> listImageText = new List<FBConversationDetail_Image>();
+                    foreach (var sItem in listImageDetail)
                     {
+                        string imageText = string.Empty;
+                        bool flag = ShareDataHelper.CheckIsTransfer_Img(sItem.Url, out imageText, out sMessage);
+                        var customer = db.sp_FB_GetListConversationIds_Run(sItem.SenderId);
+                        if (customer != null)
+                        {
+                            var _item = new FBConversationDetail_Image()
+                            {
+                                ConversationId = customer.ConversationId,
+                                CustomerFbName = customer.CustomerName,
+                                LinkToChat = customer.LinkToChat,
+                                ImageText = imageText,
+                                IsBankTransfer = flag,
+                                Log_CreatedDate = DateTime.Now,
+                                TimeReceiveFromSource = sItem.TimeReceiveFromSource
+                            };
+                            listImageText.Add(_item);
+                        }
+                    }
+                    if (listImageText != null && listImageText.Count > 0)
+                    {
+                        db.AddRange_FBConversationDetail_Image(listImageText);
                         db.SaveChanges();
                     }
-                }
+                });
                 if (customers != string.Empty)
                     fbEngine.PushCustomer(customers);
             }
@@ -138,7 +155,6 @@ namespace WebReceiveMessageRealTime.Controllers
             {
                 sMessage = ex.Message;
             }
-            if (!string.IsNullOrEmpty(sMessage)) response.Content = new StringContent(sMessage);
             return response;
         }
         [Route("GetDataString")]

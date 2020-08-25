@@ -20,6 +20,7 @@ namespace WebReceiveMessageRealTime
         public string LinkToChat { get; set; }
         public string ImageText { get; set; }
         public bool IsBankTransfer { get; set; }
+        public Nullable<System.DateTime> TimeReceiveFromSource { get; set; }
         public bool IsDeleted { get; set; }
         public Nullable<System.DateTime> Log_CreatedDate { get; set; }
         public string Log_CreatedBy { get; set; }
