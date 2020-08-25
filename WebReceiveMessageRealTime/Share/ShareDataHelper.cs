@@ -13,6 +13,7 @@ using Alliance.Auto.Bank.Client;
 using System.Text;
 using System.Linq;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace WebReceiveMessageRealTime.Share
 {
@@ -84,6 +85,10 @@ namespace WebReceiveMessageRealTime.Share
                             break;
                         }
                     }
+                    imageText = imageText.Replace("\n", " ").Replace("\r", " ");
+                    RegexOptions options = RegexOptions.None;
+                    Regex regex = new Regex("[ ]{2,}", options);
+                    imageText = regex.Replace(imageText, " ");
                 }
                 if (flag == true)
                 {
