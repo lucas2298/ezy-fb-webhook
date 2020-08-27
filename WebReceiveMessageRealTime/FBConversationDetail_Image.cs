@@ -26,5 +26,6 @@ namespace WebReceiveMessageRealTime
         public string Log_CreatedBy { get; set; }
         public Nullable<System.DateTime> Log_UpdatedDate { get; set; }
         public string Log_UpdatedBy { get; set; }
+        public Nullable<decimal> CusMoneyNotTransferBefore { get; set; }
     }
 }

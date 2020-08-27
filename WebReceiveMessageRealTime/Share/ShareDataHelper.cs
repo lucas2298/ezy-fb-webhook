@@ -14,12 +14,14 @@ using System.Text;
 using System.Linq;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using Winsoft.Ocr;
 
 namespace WebReceiveMessageRealTime.Share
 {
     public static class ShareDataHelper
     {
         private static string sConnectionString = string.Empty;
+        private static string sConnectionStringAjuma = string.Empty;
         private static string tessPath = HostingEnvironment.MapPath(@"~/tessdata");
         private static string baseStringPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "BaseString.txt");
         private static string[] baseStringList = File.ReadAllText(baseStringPath).Replace("\r", "").Replace(",", "").Split('\n');
@@ -30,6 +32,14 @@ namespace WebReceiveMessageRealTime.Share
                 sConnectionString = DataConnectionManager.GetSimpleConnectionString("Setting_Facebook.txt");
             }
             return sConnectionString;
+        }
+        public static string GetConnectionStringAjuma()
+        {
+            if (sConnectionStringAjuma == string.Empty)
+            {
+                sConnectionStringAjuma = DataConnectionManager.GetSimpleConnectionString("Setting_Ajuma.txt");
+            }
+            return sConnectionStringAjuma;
         }
         public static System.Drawing.Image DownloadImageFromUrl(string imageUrl)
         {
@@ -66,15 +76,20 @@ namespace WebReceiveMessageRealTime.Share
             bool flag = false;
             sMessage = string.Empty;
             imageText = string.Empty;
+            #region Old code
+            // Sử dụng tesseract ocr
+            /*
             try
             {
-                var img = DownloadImageFromUrl(Url);
+                //var img = DownloadImageFromUrl(Url);
+                var img = Image.FromFile(@"D:\WebReceiveMessageRealTime\WebReceiveMessageRealTime\Image\test.png");
                 Bitmap bmp = (Bitmap)img;
-                Pix imgPix = PixConverter.ToPix(bmp);
-                using (TesseractEngine Orc = new TesseractEngine(tessPath, "eng", EngineMode.Default))
+                using (TesseractEngine Orc = new TesseractEngine(tessPath, "vie"))
                 {
-                    var res = Orc.Process(imgPix);
-                    var text = StringNormalize(res.GetText());
+                    string res = string.Empty;
+                    using (var page = Orc.Process(bmp, PageSegMode.AutoOnly))
+                        res = page.GetText();
+                    var text = StringNormalize(res);
                     imageText = text;
                     foreach (var sKey in baseStringList)
                     {
@@ -93,6 +108,51 @@ namespace WebReceiveMessageRealTime.Share
                 if (flag == true)
                 {
                     sMessage = SignalDownloadExcel();
+                }
+            }
+            catch (Exception ex)
+            {
+                sMessage = ex.Message;
+            }
+            */
+            #endregion
+            // Sử dụng winsoft ocr
+            try
+            {
+                var img = DownloadImageFromUrl(Url);
+                //var img = Image.FromFile(@"D:\WebReceiveMessageRealTime\WebReceiveMessageRealTime\Image\test.png");
+                var ocr = new Ocr()
+                {
+                    DataPath = null,
+                    Language = Winsoft.Ocr.Language.English,
+                    LanguageCode = "eng",
+                    PdfFileName = "",
+                    PdfTitle = "",
+                    PictureFileName = null,
+                };
+                ocr.Picture = img;
+                if (!ocr.Active)
+                {
+                    ocr.DataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WinsoftOcr");
+                    ocr.Active = true;
+                    imageText = StringNormalize(ocr.Text);
+                    imageText = imageText.Replace("\n", " ").Replace("\r", " ");
+                    RegexOptions options = RegexOptions.None;
+                    Regex regex = new Regex("[ ]{2,}", options);
+                    imageText = regex.Replace(imageText, " ");
+                    foreach (var sKey in baseStringList)
+                    {
+                        var key = StringNormalize(sKey);
+                        if (imageText.Contains(key))
+                        {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (flag == true)
+                    {
+                        sMessage = SignalDownloadExcel();
+                    }
                 }
             }
             catch (Exception ex)

@@ -31,6 +31,7 @@
           <Property Name="LinkToChat" Type="nvarchar(max)" />
           <Property Name="ImageText" Type="nvarchar(max)" />
           <Property Name="IsBankTransfer" Type="bit" Nullable="false" />
+          <Property Name="CusMoneyNotTransferBefore" Type="decimal" Precision="20" Scale="6" />
           <Property Name="TimeReceiveFromSource" Type="datetime" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="Log_CreatedDate" Type="datetime" />
@@ -95,6 +96,7 @@
           <Property Name="Log_CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Log_UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="Log_UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CusMoneyNotTransferBefore" Type="Decimal" Precision="20" Scale="6" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -133,6 +135,7 @@
           <EntitySetMapping Name="FBConversationDetail_Image">
             <EntityTypeMapping TypeName="SOLIDDB_DEVModel.FBConversationDetail_Image">
               <MappingFragment StoreEntitySet="FBConversationDetail_Image">
+                <ScalarProperty Name="CusMoneyNotTransferBefore" ColumnName="CusMoneyNotTransferBefore" />
                 <ScalarProperty Name="Log_UpdatedBy" ColumnName="Log_UpdatedBy" />
                 <ScalarProperty Name="Log_UpdatedDate" ColumnName="Log_UpdatedDate" />
                 <ScalarProperty Name="Log_CreatedBy" ColumnName="Log_CreatedBy" />

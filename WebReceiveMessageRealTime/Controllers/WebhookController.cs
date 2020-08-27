@@ -45,6 +45,10 @@ namespace WebReceiveMessageRealTime.Controllers
         {
             get { return ShareDataHelper.GetFBEngine(); }
         }
+        public static string ajumaConnectionString
+        {
+            get { return ShareDataHelper.GetConnectionStringAjuma(); }
+        }
         [HttpPost]
         public HttpResponseMessage Post(object data)
         {
@@ -122,6 +126,7 @@ namespace WebReceiveMessageRealTime.Controllers
                 //=> Dùng task để chạy ngầm, đảm bảo không bị timeout khi fb request
                 Task.Run(() => {
                     List<FBConversationDetail_Image> listImageText = new List<FBConversationDetail_Image>();
+                    var dbAjuma = new AjumaDataConnect(ajumaConnectionString);
                     foreach (var sItem in listImageDetail)
                     {
                         string imageText = string.Empty;
@@ -139,6 +144,12 @@ namespace WebReceiveMessageRealTime.Controllers
                                 Log_CreatedDate = DateTime.Now,
                                 TimeReceiveFromSource = sItem.TimeReceiveFromSource
                             };
+                            if (flag == true)
+                            {
+                                var supplier = dbAjuma.GetSupplier(_item.LinkToChat);
+                                if (supplier != null)
+                                _item.CusMoneyNotTransferBefore = dbAjuma.GetCusMoneyNotTransferBefore(supplier.Id.ToString(), _item.TimeReceiveFromSource);
+                            }
                             listImageText.Add(_item);
                         }
                     }
