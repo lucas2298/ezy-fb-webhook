@@ -62,8 +62,8 @@ namespace WebReceiveMessageRealTime.Controllers
                 var jsonObject = JsonConvert.DeserializeObject<MessageReceiveModel>(dataString);
                 // customers lưu tất cả các id khách hàng để gửi về lại cho engine
                 string customers = string.Empty;
-                var db = new DatabaseConnect(connectionString);
                 var listImageDetail = new List<ImageDetailModel>();
+                var db = new DatabaseConnect(connectionString);
                 foreach (var dataObjects in jsonObject.entry)
                 {
                     long time = Convert.ToInt64(dataObjects.time / 1000);
@@ -132,7 +132,7 @@ namespace WebReceiveMessageRealTime.Controllers
                         string imageText = string.Empty;
                         bool flag = ShareDataHelper.CheckIsTransfer_Img(sItem.Url, out imageText, out sMessage);
                         var customer = db.sp_FB_GetListConversationIds_Run(sItem.SenderId);
-                        if (customer != null)
+                        if (customer != null && !string.IsNullOrEmpty(imageText))
                         {
                             var _item = new FBConversationDetail_Image()
                             {

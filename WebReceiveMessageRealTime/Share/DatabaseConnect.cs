@@ -98,7 +98,8 @@ namespace WebReceiveMessageRealTime.Share
             return db.Suppliers.ToArray().Where(c => c.FacebookURL == LinkToChat).LastOrDefault();
         }
         /// <summary>
-        /// 
+        /// Hàm sẽ tính số tiền mà khách còn nợ.
+        /// - Tính đến thời điểm khách gửi ảnh chuyển khoản
         /// </summary>
         /// <param name="supplierId"></param>
         /// <param name="TimeReceiveFromSource"></param>
