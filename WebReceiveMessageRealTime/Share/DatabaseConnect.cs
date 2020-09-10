@@ -93,9 +93,9 @@ namespace WebReceiveMessageRealTime.Share
         /// </summary>
         /// <param name="LinkToChat"></param>
         /// <returns></returns>
-        public Supplier GetSupplier(string LinkToChat)
+        public long[] GetSupplier(string LinkToChat)
         {
-            return db.Suppliers.ToArray().Where(c => c.FacebookURL == LinkToChat).LastOrDefault();
+            return db.Suppliers.ToArray().Where(c => c.FacebookURL == LinkToChat && c.IsDeleted == false).Select(c => c.Id).ToArray();
         }
         /// <summary>
         /// Hàm sẽ tính số tiền mà khách còn nợ.
@@ -104,12 +104,11 @@ namespace WebReceiveMessageRealTime.Share
         /// <param name="supplierId"></param>
         /// <param name="TimeReceiveFromSource"></param>
         /// <returns></returns>
-        public decimal? GetCusMoneyNotTransferBefore(string supplierId, DateTime? TimeReceiveFromSource)
+        public decimal? GetCusMoneyNotTransferBefore(long[] supplierId, DateTime? TimeReceiveFromSource)
         {
             decimal? CusMoneyNotTransferBefore = 0.0m;
             sp_GetBillTransfer_Json_Param param = new sp_GetBillTransfer_Json_Param()
             {
-                SupplierId = supplierId,
                 HasMapping = false
             };
             var result = new List<sp_GetBillTransfer_Json_Result>();
@@ -121,7 +120,10 @@ namespace WebReceiveMessageRealTime.Share
             {
                 result = JsonConvert.DeserializeObject<List<sp_GetBillTransfer_Json_Result>>(jsonString);
             }
-            CusMoneyNotTransferBefore = result.Where(c => c.EntDate <= TimeReceiveFromSource).Sum(c => c.TotalMoney);
+            foreach (var sId in supplierId)
+            {
+                CusMoneyNotTransferBefore += result.Where(c => c.EntDate <= TimeReceiveFromSource && c.SupplierId == sId).Sum(c => c.TotalMoney);
+            }
             return CusMoneyNotTransferBefore;
         }
     }

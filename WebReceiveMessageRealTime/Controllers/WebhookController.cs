@@ -147,8 +147,8 @@ namespace WebReceiveMessageRealTime.Controllers
                             if (flag == true)
                             {
                                 var supplier = dbAjuma.GetSupplier(_item.LinkToChat);
-                                if (supplier != null)
-                                _item.CusMoneyNotTransferBefore = dbAjuma.GetCusMoneyNotTransferBefore(supplier.Id.ToString(), _item.TimeReceiveFromSource);
+                                if (supplier != null && supplier.Length > 0)
+                                _item.CusMoneyNotTransferBefore = dbAjuma.GetCusMoneyNotTransferBefore(supplier, _item.TimeReceiveFromSource);
                             }
                             listImageText.Add(_item);
                         }

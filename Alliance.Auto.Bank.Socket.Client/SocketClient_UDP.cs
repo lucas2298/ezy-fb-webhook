@@ -53,8 +53,8 @@ namespace Alliance.Auto.Bank.Client
         {
             string sMessage = string.Empty;
             //create a new client
-            var client = UdpUser.ConnectTo("45.117.176.3", 11000);
-            //var client = UdpUser.ConnectTo("127.0.0.1", 11000);
+            //var client = UdpUser.ConnectTo("45.117.176.3", 11000);
+            var client = UdpUser.ConnectTo("127.0.0.1", 11000);
             //wait for reply messages from server and send them to console 
             Task.Factory.StartNew(async () =>
             {
