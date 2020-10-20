@@ -14,6 +14,12 @@ namespace WebReceiveMessageRealTime
     
     public partial class FBConversationDetail_Image
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public FBConversationDetail_Image()
+        {
+            this.FBConversationDetail_ImageBillNotPaidMoment = new HashSet<FBConversationDetail_ImageBillNotPaidMoment>();
+        }
+    
         public long Id { get; set; }
         public string ConversationId { get; set; }
         public string CustomerFbName { get; set; }
@@ -27,5 +33,9 @@ namespace WebReceiveMessageRealTime
         public Nullable<System.DateTime> Log_UpdatedDate { get; set; }
         public string Log_UpdatedBy { get; set; }
         public Nullable<decimal> CusMoneyNotTransferBefore { get; set; }
+        public bool IsLikeBankTransfer { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FBConversationDetail_ImageBillNotPaidMoment> FBConversationDetail_ImageBillNotPaidMoment { get; set; }
     }
 }

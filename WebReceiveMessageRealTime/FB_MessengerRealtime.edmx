@@ -38,32 +38,61 @@
           <Property Name="Log_CreatedBy" Type="nvarchar" MaxLength="500" />
           <Property Name="Log_UpdatedDate" Type="datetime" />
           <Property Name="Log_UpdatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsLikeBankTransfer" Type="bit" Nullable="false" />
         </EntityType>
-        <Function Name="sp_FB_GetListConversationIds" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="listCustomerIds" Type="nvarchar(max)" Mode="In" />
+        <EntityType Name="FBConversationDetail_ImageBillNotPaidMoment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FBConversationDetail_ImageId" Type="bigint" />
+          <Property Name="BillId" Type="bigint" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="Log_CreatedDate" Type="datetime" />
+          <Property Name="Log_CreatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="Log_UpdatedDate" Type="datetime" />
+          <Property Name="Log_UpdatedBy" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <Association Name="FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image">
+          <End Role="FBConversationDetail_Image" Type="Self.FBConversationDetail_Image" Multiplicity="0..1" />
+          <End Role="FBConversationDetail_ImageBillNotPaidMoment" Type="Self.FBConversationDetail_ImageBillNotPaidMoment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FBConversationDetail_Image">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FBConversationDetail_ImageBillNotPaidMoment">
+              <PropertyRef Name="FBConversationDetail_ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_Fb_GetCusBySenderId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SenderId" Type="bigint" Mode="In" />
         </Function>
         <EntityContainer Name="SOLIDDB_DEVModelStoreContainer">
           <EntitySet Name="FB_MessengerRealtime" EntityType="Self.FB_MessengerRealtime" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FBConversationDetail_Image" EntityType="Self.FBConversationDetail_Image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FBConversationDetail_ImageBillNotPaidMoment" EntityType="Self.FBConversationDetail_ImageBillNotPaidMoment" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image" Association="Self.FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image">
+            <End Role="FBConversationDetail_Image" EntitySet="FBConversationDetail_Image" />
+            <End Role="FBConversationDetail_ImageBillNotPaidMoment" EntitySet="FBConversationDetail_ImageBillNotPaidMoment" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SOLIDDB_DEVModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="SOLIDDB_DEVEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="sp_FB_GetListConversationIds" ReturnType="Collection(SOLIDDB_DEVModel.sp_FB_GetListConversationIds_Result)">
-          <Parameter Name="listCustomerIds" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="FB_MessengerRealtime" EntityType="SOLIDDB_DEVModel.FB_MessengerRealtime" />
           <EntitySet Name="FBConversationDetail_Image" EntityType="SOLIDDB_DEVModel.FBConversationDetail_Image" />
+          <FunctionImport Name="sp_Fb_GetCusBySenderId" ReturnType="Collection(SOLIDDB_DEVModel.sp_Fb_GetCusBySenderId_Result)">
+          <Parameter Name="SenderId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <EntitySet Name="FBConversationDetail_ImageBillNotPaidMoment" EntityType="SOLIDDB_DEVModel.FBConversationDetail_ImageBillNotPaidMoment" />
+          <AssociationSet Name="FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image" Association="SOLIDDB_DEVModel.FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image">
+            <End Role="FBConversationDetail_Image" EntitySet="FBConversationDetail_Image" />
+            <End Role="FBConversationDetail_ImageBillNotPaidMoment" EntitySet="FBConversationDetail_ImageBillNotPaidMoment" />
+          </AssociationSet>
         </EntityContainer>
-        <ComplexType Name="sp_FB_GetListConversationIds_Result">
-          <Property Type="String" Name="ConversationId" Nullable="false" MaxLength="250" />
-          <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="LinkToChat" Nullable="true" MaxLength="500" />
-          <Property Type="Boolean" Name="IsBruteForce" Nullable="false" />
-          <Property Type="DateTime" Name="DetailMaxCreatedTime" Nullable="true" Precision="23" />
-        </ComplexType>
         <EntityType Name="FB_MessengerRealtime">
           <Key>
             <PropertyRef Name="Id" />
@@ -97,24 +126,46 @@
           <Property Name="Log_UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="Log_UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="CusMoneyNotTransferBefore" Type="Decimal" Precision="20" Scale="6" />
+          <NavigationProperty Name="FBConversationDetail_ImageBillNotPaidMoment" Relationship="SOLIDDB_DEVModel.FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image" FromRole="FBConversationDetail_Image" ToRole="FBConversationDetail_ImageBillNotPaidMoment" />
+          <Property Name="IsLikeBankTransfer" Type="Boolean" Nullable="false" />
         </EntityType>
+        <ComplexType Name="sp_Fb_GetCusBySenderId_Result">
+          <Property Type="String" Name="ConversationId" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="LinkToChat" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <EntityType Name="FBConversationDetail_ImageBillNotPaidMoment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FBConversationDetail_ImageId" Type="Int64" />
+          <Property Name="BillId" Type="Int64" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="Log_CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Log_UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FBConversationDetail_Image" Relationship="SOLIDDB_DEVModel.FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image" FromRole="FBConversationDetail_ImageBillNotPaidMoment" ToRole="FBConversationDetail_Image" />
+        </EntityType>
+        <Association Name="FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image">
+          <End Type="SOLIDDB_DEVModel.FBConversationDetail_Image" Role="FBConversationDetail_Image" Multiplicity="0..1" />
+          <End Type="SOLIDDB_DEVModel.FBConversationDetail_ImageBillNotPaidMoment" Role="FBConversationDetail_ImageBillNotPaidMoment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FBConversationDetail_Image">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FBConversationDetail_ImageBillNotPaidMoment">
+              <PropertyRef Name="FBConversationDetail_ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SOLIDDB_DEVModelStoreContainer" CdmEntityContainer="SOLIDDB_DEVEntities">
-          <FunctionImportMapping FunctionImportName="sp_FB_GetListConversationIds" FunctionName="SOLIDDB_DEVModel.Store.sp_FB_GetListConversationIds">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SOLIDDB_DEVModel.sp_FB_GetListConversationIds_Result">
-                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="LinkToChat" ColumnName="LinkToChat" />
-                <ScalarProperty Name="IsBruteForce" ColumnName="IsBruteForce" />
-                <ScalarProperty Name="DetailMaxCreatedTime" ColumnName="DetailMaxCreatedTime" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="FB_MessengerRealtime">
             <EntityTypeMapping TypeName="SOLIDDB_DEVModel.FB_MessengerRealtime">
               <MappingFragment StoreEntitySet="FB_MessengerRealtime">
@@ -135,6 +186,7 @@
           <EntitySetMapping Name="FBConversationDetail_Image">
             <EntityTypeMapping TypeName="SOLIDDB_DEVModel.FBConversationDetail_Image">
               <MappingFragment StoreEntitySet="FBConversationDetail_Image">
+                <ScalarProperty Name="IsLikeBankTransfer" ColumnName="IsLikeBankTransfer" />
                 <ScalarProperty Name="CusMoneyNotTransferBefore" ColumnName="CusMoneyNotTransferBefore" />
                 <ScalarProperty Name="Log_UpdatedBy" ColumnName="Log_UpdatedBy" />
                 <ScalarProperty Name="Log_UpdatedDate" ColumnName="Log_UpdatedDate" />
@@ -147,6 +199,29 @@
                 <ScalarProperty Name="LinkToChat" ColumnName="LinkToChat" />
                 <ScalarProperty Name="CustomerFbName" ColumnName="CustomerFbName" />
                 <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Fb_GetCusBySenderId" FunctionName="SOLIDDB_DEVModel.Store.sp_Fb_GetCusBySenderId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SOLIDDB_DEVModel.sp_Fb_GetCusBySenderId_Result">
+                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="LinkToChat" ColumnName="LinkToChat" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="FBConversationDetail_ImageBillNotPaidMoment">
+            <EntityTypeMapping TypeName="SOLIDDB_DEVModel.FBConversationDetail_ImageBillNotPaidMoment">
+              <MappingFragment StoreEntitySet="FBConversationDetail_ImageBillNotPaidMoment">
+                <ScalarProperty Name="Log_UpdatedBy" ColumnName="Log_UpdatedBy" />
+                <ScalarProperty Name="Log_UpdatedDate" ColumnName="Log_UpdatedDate" />
+                <ScalarProperty Name="Log_CreatedBy" ColumnName="Log_CreatedBy" />
+                <ScalarProperty Name="Log_CreatedDate" ColumnName="Log_CreatedDate" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="BillId" ColumnName="BillId" />
+                <ScalarProperty Name="FBConversationDetail_ImageId" ColumnName="FBConversationDetail_ImageId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

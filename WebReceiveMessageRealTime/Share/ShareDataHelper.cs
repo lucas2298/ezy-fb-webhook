@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Web;
 using Newtonsoft.Json;
 using Ezy.Module.Facebook.Package.MSSQL;
-using Tesseract;
 using System.IO;
 using System.Web.Hosting;
 using System.Drawing;
@@ -24,7 +23,6 @@ namespace WebReceiveMessageRealTime.Share
     {
         private static string sConnectionString = string.Empty;
         private static string sConnectionStringAjuma = string.Empty;
-        private static string tessPath = HostingEnvironment.MapPath(@"~/tessdata");
         private static string baseStringPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "BaseString.txt");
         private static string[] baseStringList = File.ReadAllText(baseStringPath).Replace("\r", "").Replace(",", "").Split('\n');
         public static string GetConnectionStringFB()

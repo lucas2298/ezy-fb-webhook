@@ -52,18 +52,22 @@ namespace WebReceiveMessageRealTime.Share
         {
             db.FB_MessengerRealtime.AddRange(listItem);
         }
-        public sp_FB_GetListConversationIds_Result sp_FB_GetListConversationIds_Run(string customerId)
+        public sp_Fb_GetCusBySenderId_Result sp_Fb_GetCusBySenderId_Run(long senderId)
         {
-            var data = db.sp_FB_GetListConversationIds(customerId).LastOrDefault();
+            var data = db.sp_Fb_GetCusBySenderId(senderId).FirstOrDefault();
             return data;
         }
-        public void Add_FBConversationDetail_Image(FBConversationDetail_Image item)
+        public FBConversationDetail_Image Add_FBConversationDetail_Image(FBConversationDetail_Image item)
         {
-            db.FBConversationDetail_Image.Add(item);
+            return db.FBConversationDetail_Image.Add(item);
         }
         public void AddRange_FBConversationDetail_Image(List<FBConversationDetail_Image> item)
         {
             db.FBConversationDetail_Image.AddRange(item);
+        }
+        public void AddRange_FBConversationDetail_ImageMoment(FBConversationDetail_ImageBillNotPaidMoment[] item)
+        {
+            db.FBConversationDetail_ImageBillNotPaidMoment.AddRange(item);
         }
         public void SaveChanges()
         {
@@ -104,7 +108,7 @@ namespace WebReceiveMessageRealTime.Share
         /// <param name="supplierId"></param>
         /// <param name="TimeReceiveFromSource"></param>
         /// <returns></returns>
-        public decimal? GetCusMoneyNotTransferBefore(long[] supplierId, DateTime? TimeReceiveFromSource)
+        public decimal? GetCusMoneyNotTransferBefore(long[] supplierId, DateTime? TimeReceiveFromSource, long fbImageId)
         {
             decimal? CusMoneyNotTransferBefore = 0.0m;
             sp_GetBillTransfer_Json_Param param = new sp_GetBillTransfer_Json_Param()
@@ -120,9 +124,27 @@ namespace WebReceiveMessageRealTime.Share
             {
                 result = JsonConvert.DeserializeObject<List<sp_GetBillTransfer_Json_Result>>(jsonString);
             }
+            var imageMomentList = new List<FBConversationDetail_ImageBillNotPaidMoment>();
+            var dbFB = new DatabaseConnect(ShareDataHelper.GetConnectionStringFB());
             foreach (var sId in supplierId)
             {
-                CusMoneyNotTransferBefore += result.Where(c => c.EntDate <= TimeReceiveFromSource && c.SupplierId == sId).Sum(c => c.TotalMoney);
+                CusMoneyNotTransferBefore += result.Where(c => {
+                    var flag = false;
+                    if (c.EntDate <= TimeReceiveFromSource && c.SupplierId == sId)
+                    {
+                        flag = true;
+                        imageMomentList.Add(new FBConversationDetail_ImageBillNotPaidMoment() {
+                            FBConversationDetail_ImageId = fbImageId,
+                            BillId = c.BillId,
+                        });
+                    }
+                    return flag;
+                }).Sum(c => c.TotalMoney);
+            }
+            if (imageMomentList != null && imageMomentList.Count() > 0)
+            {
+                dbFB.AddRange_FBConversationDetail_ImageMoment(imageMomentList.ToArray());
+                dbFB.SaveChanges();
             }
             return CusMoneyNotTransferBefore;
         }

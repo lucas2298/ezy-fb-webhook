@@ -29,14 +29,15 @@ namespace WebReceiveMessageRealTime
     
         public virtual DbSet<FB_MessengerRealtime> FB_MessengerRealtime { get; set; }
         public virtual DbSet<FBConversationDetail_Image> FBConversationDetail_Image { get; set; }
+        public virtual DbSet<FBConversationDetail_ImageBillNotPaidMoment> FBConversationDetail_ImageBillNotPaidMoment { get; set; }
     
-        public virtual ObjectResult<sp_FB_GetListConversationIds_Result> sp_FB_GetListConversationIds(string listCustomerIds)
+        public virtual ObjectResult<sp_Fb_GetCusBySenderId_Result> sp_Fb_GetCusBySenderId(Nullable<long> senderId)
         {
-            var listCustomerIdsParameter = listCustomerIds != null ?
-                new ObjectParameter("listCustomerIds", listCustomerIds) :
-                new ObjectParameter("listCustomerIds", typeof(string));
+            var senderIdParameter = senderId.HasValue ?
+                new ObjectParameter("SenderId", senderId) :
+                new ObjectParameter("SenderId", typeof(long));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_FB_GetListConversationIds_Result>("sp_FB_GetListConversationIds", listCustomerIdsParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Fb_GetCusBySenderId_Result>("sp_Fb_GetCusBySenderId", senderIdParameter);
         }
     }
 }
