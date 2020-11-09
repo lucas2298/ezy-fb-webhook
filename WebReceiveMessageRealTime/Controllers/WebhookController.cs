@@ -17,6 +17,7 @@ namespace WebReceiveMessageRealTime.Controllers
     public class WebhookController : ApiController
     {
         public static string jsonString { get; set; }
+        public static List<ImageDetailModel> listNewCus = new List<ImageDetailModel>();
         [HttpGet]
         public HttpResponseMessage Get()
         {
@@ -113,10 +114,10 @@ namespace WebReceiveMessageRealTime.Controllers
                                     });
                                 }
                             }
+                            customers += listItem[0].SenderId.ToString() + ',';
                             if (listItem != null && listItem.Count > 0 && SaveDb == "1")
                             {
                                 db.AddRange_FB_MessengerRealtime(listItem);
-                                customers += listItem[0].SenderId.ToString() + ',';
                                 db.SaveChanges();
                             }
                         }
@@ -128,14 +129,20 @@ namespace WebReceiveMessageRealTime.Controllers
                 Task.Run(() =>
                 {
                     List<FBConversationDetail_Image> listImageText = new List<FBConversationDetail_Image>();
-                    var dbAjuma = new AjumaDataConnect(ajumaConnectionString);
+                    var dbAjuma = new AjumaDataConnect(ajumaConnectionString); 
+                    // Nếu là KH mới thì sẽ phải lấy tin nhắn về, dẫn tới trường hợp không tìm được KH và mất luôn thông tin lần gửi này
+                    if (listNewCus != null && listNewCus.Count > 0)
+                    {
+                        listImageDetail.AddRange(listNewCus);
+                        listNewCus = new List<ImageDetailModel>();
+                    }
                     foreach (var sItem in listImageDetail)
                     {
                         string imageText = string.Empty;
                         bool flag = ShareDataHelper.CheckIsTransfer_Img(sItem.Url, out imageText, out sMessage);
                         var senderId = Convert.ToInt64(sItem.SenderId);
                         var customer = db.sp_Fb_GetCusBySenderId_Run(senderId);
-                        if (customer != null && !string.IsNullOrEmpty(imageText))
+                        if (customer != null)
                         {
                             var _item = new FBConversationDetail_Image()
                             {
@@ -157,10 +164,11 @@ namespace WebReceiveMessageRealTime.Controllers
                                 {
                                     if (!flag) _item.IsLikeBankTransfer = true;
                                 }
+                                db.SaveChanges();
                             }
-                            db.SaveChanges();
                             //listImageText.Add(_item);
                         }
+                        else listNewCus.Add(sItem);
                     }
                     /*
                     if (listImageText != null && listImageText.Count > 0)

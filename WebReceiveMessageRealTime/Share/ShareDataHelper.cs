@@ -131,6 +131,7 @@ namespace WebReceiveMessageRealTime.Share
                 if (!listString.Contains(c)) listString.Add(c);
             });
             string_1 = string.Join(" ", listString);
+            string_1 = string_1.Trim();
             return string_1;
         }
         private static bool GetTextInImage(Ocr ocr_vie, Ocr ocr_eng, out string imageText)
