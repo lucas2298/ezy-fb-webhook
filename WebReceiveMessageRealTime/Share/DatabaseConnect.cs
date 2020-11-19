@@ -69,6 +69,11 @@ namespace WebReceiveMessageRealTime.Share
         {
             db.FBConversationDetail_ImageBillNotPaidMoment.AddRange(item);
         }
+        public void AddLog(FB_Log item)
+        {
+            db.FB_Log.Add(item);
+            db.SaveChanges();
+        }
         public void SaveChanges()
         {
             db.SaveChanges();

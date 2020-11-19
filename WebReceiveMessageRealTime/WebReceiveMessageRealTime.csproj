@@ -209,6 +209,9 @@
     <Compile Include="FBConversationDetail_ImageBillNotPaidMoment.cs">
       <DependentUpon>FB_MessengerRealtime.tt</DependentUpon>
     </Compile>
+    <Compile Include="FB_Log.cs">
+      <DependentUpon>FB_MessengerRealtime.tt</DependentUpon>
+    </Compile>
     <Compile Include="FB_MessengerRealtime.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

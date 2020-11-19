@@ -57,6 +57,7 @@ namespace WebReceiveMessageRealTime.Controllers
             var dataString = data.ToString();
             jsonString = dataString;
             string sMessage = string.Empty;
+            var db = new DatabaseConnect(connectionString);
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             try
             {
@@ -64,7 +65,6 @@ namespace WebReceiveMessageRealTime.Controllers
                 // customers lưu tất cả các id khách hàng để gửi về lại cho engine
                 string customers = string.Empty;
                 var listImageDetail = new List<ImageDetailModel>();
-                var db = new DatabaseConnect(connectionString);
                 foreach (var dataObjects in jsonObject.entry)
                 {
                     long time = Convert.ToInt64(dataObjects.time / 1000);
@@ -114,11 +114,14 @@ namespace WebReceiveMessageRealTime.Controllers
                                     });
                                 }
                             }
-                            customers += listItem[0].SenderId.ToString() + ',';
-                            if (listItem != null && listItem.Count > 0 && SaveDb == "1")
+                            if (listItem != null && listItem.Count > 0)
                             {
-                                db.AddRange_FB_MessengerRealtime(listItem);
-                                db.SaveChanges();
+                                customers += listItem[0].SenderId.ToString() + ',';
+                                if (SaveDb == "1")
+                                {
+                                    db.AddRange_FB_MessengerRealtime(listItem);
+                                    db.SaveChanges();
+                                }
                             }
                         }
                     }
@@ -129,7 +132,7 @@ namespace WebReceiveMessageRealTime.Controllers
                 Task.Run(() =>
                 {
                     List<FBConversationDetail_Image> listImageText = new List<FBConversationDetail_Image>();
-                    var dbAjuma = new AjumaDataConnect(ajumaConnectionString); 
+                    var dbAjuma = new AjumaDataConnect(ajumaConnectionString);
                     // Nếu là KH mới thì sẽ phải lấy tin nhắn về, dẫn tới trường hợp không tìm được KH và mất luôn thông tin lần gửi này
                     if (listNewCus != null && listNewCus.Count > 0)
                     {
@@ -140,43 +143,52 @@ namespace WebReceiveMessageRealTime.Controllers
                     {
                         string imageText = string.Empty;
                         bool flag = ShareDataHelper.CheckIsTransfer_Img(sItem.Url, out imageText, out sMessage);
-                        var senderId = Convert.ToInt64(sItem.SenderId);
-                        var customer = db.sp_Fb_GetCusBySenderId_Run(senderId);
-                        if (customer != null)
+                        if (string.IsNullOrEmpty(sMessage))
                         {
-                            var _item = new FBConversationDetail_Image()
+                            var senderId = Convert.ToInt64(sItem.SenderId);
+                            var customer = db.sp_Fb_GetCusBySenderId_Run(senderId);
+                            if (customer != null)
                             {
-                                ConversationId = customer.ConversationId,
-                                CustomerFbName = customer.CustomerName,
-                                LinkToChat = customer.LinkToChat,
-                                ImageText = imageText,
-                                IsBankTransfer = flag,
-                                Log_CreatedDate = DateTime.Now,
-                                TimeReceiveFromSource = sItem.TimeReceiveFromSource
-                            };
-                            var fbImage = db.Add_FBConversationDetail_Image(_item);
-                            db.SaveChanges();
-                            var supplier = dbAjuma.GetSupplier(_item.LinkToChat);
-                            if (supplier != null && supplier.Length > 0)
-                            {
-                                _item.CusMoneyNotTransferBefore = dbAjuma.GetCusMoneyNotTransferBefore(supplier, _item.TimeReceiveFromSource, fbImage.Id);
-                                if (_item.CusMoneyNotTransferBefore > 0)
+                                var _item = new FBConversationDetail_Image()
                                 {
-                                    if (!flag) _item.IsLikeBankTransfer = true;
-                                }
+                                    ConversationId = customer.ConversationId,
+                                    CustomerFbName = customer.CustomerName,
+                                    LinkToChat = customer.LinkToChat,
+                                    ImageText = imageText,
+                                    IsBankTransfer = flag,
+                                    Log_CreatedDate = DateTime.Now,
+                                    TimeReceiveFromSource = sItem.TimeReceiveFromSource
+                                };
+                                var fbImage = db.Add_FBConversationDetail_Image(_item);
                                 db.SaveChanges();
+                                var supplier = dbAjuma.GetSupplier(_item.LinkToChat);
+                                if (supplier != null && supplier.Length > 0)
+                                {
+                                    _item.CusMoneyNotTransferBefore = dbAjuma.GetCusMoneyNotTransferBefore(supplier, _item.TimeReceiveFromSource, fbImage.Id);
+                                    if (_item.CusMoneyNotTransferBefore > 0)
+                                    {
+                                        if (!flag) _item.IsLikeBankTransfer = true;
+                                    }
+                                    db.SaveChanges();
+                                }
+                                //listImageText.Add(_item);
                             }
-                            //listImageText.Add(_item);
+                            else listNewCus.Add(sItem);
                         }
-                        else listNewCus.Add(sItem);
+                        else db.AddLog(new FB_Log()
+                        {
+                            Method = "POST - CheckIsTransfer_Img",
+                            Message = sMessage + "\n" + sItem.Url + imageText,
+                            Log_CreatedDate = DateTime.Now
+                        });
+                        /*
+                        if (listImageText != null && listImageText.Count > 0)
+                        {
+                            db.AddRange_FBConversationDetail_Image(listImageText);
+                            db.SaveChanges();
+                        }
+                        */
                     }
-                    /*
-                    if (listImageText != null && listImageText.Count > 0)
-                    {
-                        db.AddRange_FBConversationDetail_Image(listImageText);
-                        db.SaveChanges();
-                    }
-                    */
                 });
                 if (customers != string.Empty)
                     fbEngine.PushCustomer(customers);
@@ -184,6 +196,17 @@ namespace WebReceiveMessageRealTime.Controllers
             catch (Exception ex)
             {
                 sMessage = ex.Message;
+                while (!string.IsNullOrEmpty(ex.InnerException.Message))
+                {
+                    sMessage += " \n " + ex.InnerException.Message;
+                    ex = ex.InnerException;
+                }
+                db.AddLog(new FB_Log()
+                {
+                    Method = "POST - FBSendData",
+                    Message = sMessage,
+                    Log_CreatedDate = DateTime.Now
+                });
             }
             return response;
         }

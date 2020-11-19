@@ -30,6 +30,7 @@ namespace WebReceiveMessageRealTime
         public virtual DbSet<FB_MessengerRealtime> FB_MessengerRealtime { get; set; }
         public virtual DbSet<FBConversationDetail_Image> FBConversationDetail_Image { get; set; }
         public virtual DbSet<FBConversationDetail_ImageBillNotPaidMoment> FBConversationDetail_ImageBillNotPaidMoment { get; set; }
+        public virtual DbSet<FB_Log> FB_Log { get; set; }
     
         public virtual ObjectResult<sp_Fb_GetCusBySenderId_Result> sp_Fb_GetCusBySenderId(Nullable<long> senderId)
         {

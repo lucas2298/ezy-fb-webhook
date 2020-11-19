@@ -236,6 +236,11 @@ namespace WebReceiveMessageRealTime.Share
             catch (Exception ex)
             {
                 sMessage = ex.Message;
+                while (!string.IsNullOrEmpty(ex.InnerException.Message))
+                {
+                    ex = ex.InnerException;
+                    sMessage += " \n " + ex.Message;
+                }
             }
             return flag;
         }
