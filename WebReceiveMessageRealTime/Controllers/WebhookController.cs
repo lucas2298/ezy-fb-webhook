@@ -54,6 +54,7 @@ namespace WebReceiveMessageRealTime.Controllers
         public HttpResponseMessage Post(object data)
         {
             var SaveDb = ConfigurationManager.AppSettings["FB_RealTimeSaveDB"];
+            var isPushToEngine = ConfigurationManager.AppSettings["PushCustomerToEngine"];
             var dataString = data.ToString();
             jsonString = dataString;
             string sMessage = string.Empty;
@@ -181,22 +182,21 @@ namespace WebReceiveMessageRealTime.Controllers
                             Message = sMessage + "\n" + sItem.Url + imageText,
                             Log_CreatedDate = DateTime.Now
                         });
-                        /*
-                        if (listImageText != null && listImageText.Count > 0)
-                        {
-                            db.AddRange_FBConversationDetail_Image(listImageText);
-                            db.SaveChanges();
-                        }
-                        */
+                        //if (listImageText != null && listImageText.Count > 0)
+                        //{
+                        //    db.AddRange_FBConversationDetail_Image(listImageText);
+                        //    db.SaveChanges();
+                        //}
                     }
                 });
-                if (customers != string.Empty)
-                    fbEngine.PushCustomer(customers);
+                if (isPushToEngine == "1")
+                    if (customers != string.Empty)
+                        fbEngine.PushCustomer(customers);
             }
             catch (Exception ex)
             {
                 sMessage = ex.Message;
-                while (!string.IsNullOrEmpty(ex.InnerException.Message))
+                while (ex.InnerException != null)
                 {
                     sMessage += " \n " + ex.InnerException.Message;
                     ex = ex.InnerException;
