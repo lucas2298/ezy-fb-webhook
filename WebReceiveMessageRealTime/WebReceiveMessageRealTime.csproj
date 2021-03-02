@@ -147,8 +147,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Winsoft.Ocr, Version=5.8.7307.42534, Culture=neutral, PublicKeyToken=c2371442b2cedf55, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Winsoft.Ocr">
       <HintPath>..\Libs\Winsoft.Ocr.dll</HintPath>
     </Reference>
   </ItemGroup>
