@@ -54,7 +54,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Ezy.Module.Engine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Ezy.Module.Engine">
+      <HintPath>..\Libs\Ezy.Module.Engine.dll</HintPath>
+    </Reference>
     <Reference Include="Ezy.Module.Facebook.Interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\Ezy.Module.Facebook.Interface.dll</HintPath>
@@ -67,9 +69,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\Ezy.Module.Facebook.Share.dll</HintPath>
     </Reference>
-    <Reference Include="Ezy.Module.MSSQLRepository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\EZY-Soliddb\AllianceSolidWebAPI\Libs\Ezy.Module.MSSQLRepository.dll</HintPath>
+    <Reference Include="Ezy.Module.MSSQLRepository">
+      <HintPath>..\Libs\Ezy.Module.MSSQLRepository.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>

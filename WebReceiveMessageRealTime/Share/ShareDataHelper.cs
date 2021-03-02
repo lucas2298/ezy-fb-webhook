@@ -235,11 +235,10 @@ namespace WebReceiveMessageRealTime.Share
             }
             catch (Exception ex)
             {
-                sMessage = ex.Message;
-                while (!string.IsNullOrEmpty(ex.InnerException.Message))
+                while (ex != null)
                 {
+                    sMessage += ex.Message + "\n";
                     ex = ex.InnerException;
-                    sMessage += " \n " + ex.Message;
                 }
             }
             return flag;
