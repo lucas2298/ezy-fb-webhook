@@ -89,11 +89,11 @@ namespace WebReceiveMessageRealTime.Controllers
                             db.SaveChanges();
                         }
                     }
-                    else
+                    var attachements = dataObjects.messaging[0].message.Attachments.ToArray();
+                    if (attachements != null && attachements.Length > 0)
                     {
-                        var attachements = dataObjects.messaging[0].message.Attachments;
                         var listItem = new List<FB_MessengerRealtime>();
-                        if (attachements != null && attachements.Count > 0)
+                        if (attachements != null && attachements.Length > 0)
                         {
                             foreach (var sItem in attachements)
                             {

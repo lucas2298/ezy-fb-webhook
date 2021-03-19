@@ -1,1 +1,1 @@
-﻿{"ServerName":".\\SQLEXPRESS","CatalogName":"Ajuma_Dev","Username":"dev","Password":"123"}
+﻿{"ServerName":"192.168.0.21","CatalogName":"Ajuma_Dev","Username":"dev","Password":"S0l1dInterior@2018"}
