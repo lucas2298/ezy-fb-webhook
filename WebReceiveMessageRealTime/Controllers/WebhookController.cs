@@ -89,9 +89,9 @@ namespace WebReceiveMessageRealTime.Controllers
                             db.SaveChanges();
                         }
                     }
-                    var attachements = dataObjects.messaging[0].message.Attachments.ToArray();
-                    if (attachements != null && attachements.Length > 0)
+                    if (dataObjects.messaging[0].message.Attachments != null && dataObjects.messaging[0].message.Attachments.Count > 0)
                     {
+                        var attachements = dataObjects.messaging[0].message.Attachments.ToArray();
                         var listItem = new List<FB_MessengerRealtime>();
                         if (attachements != null && attachements.Length > 0)
                         {
