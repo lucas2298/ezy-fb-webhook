@@ -221,5 +221,19 @@ namespace WebReceiveMessageRealTime.Controllers
             };
             return response;
         }
+        [Route("UpdateCustomerMessage/{Id}")]
+        [HttpPost]
+        public HttpResponseMessage UpdateCustomerMessage(string Id)
+        {
+            if (fbEngine != null && !string.IsNullOrEmpty(Id))
+            {
+                fbEngine.PushCustomer(Id);
+            }
+            var response = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(jsonString)
+            };
+            return response;
+        }
     }
 }
