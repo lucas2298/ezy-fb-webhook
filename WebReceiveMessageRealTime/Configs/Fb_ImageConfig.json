@@ -1,4 +1,14 @@
-{
-  "ImagePathFolder": "D:\\Working\\Fb.Ajuma.Image\\Image",
-  "ApiUrl": "http://fb.api.ajuma.image"
-}
+[
+  {
+    "PageId": "1581613735271883",
+    "ImagePathFolder": "D:\\Working\\Fb.Ajuma.Image\\Image",
+    "ApiUrl": "http://fb.api.ajuma.image",
+    "DeleteCallBackUrl": "https://fbdev.ajumagarden.com"
+  },
+  {
+    "PageId": "106298621854744",
+    "ImagePathFolder": "D:\\Working\\Fb.Ajuma.Image\\Image",
+    "ApiUrl": "http://fb.api.ajuma.image",
+    "DeleteCallBackUrl": "https://fbdev.ajumagarden.com"
+  }
+]

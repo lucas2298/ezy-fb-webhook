@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebReceiveMessageRealTime
+namespace WebReceiveMessageRealTime.Data
 {
     using System;
     using System.Collections.Generic;
@@ -25,5 +25,7 @@ namespace WebReceiveMessageRealTime
         public Nullable<System.DateTime> Log_UpdatedDate { get; set; }
         public string Log_UpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
+        public byte[] TimeStamp { get; set; }
+        public string TimeStampText { get; set; }
     }
 }

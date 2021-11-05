@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebReceiveMessageRealTime
+namespace WebReceiveMessageRealTime.Data
 {
     using System;
     

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebReceiveMessageRealTime
+namespace WebReceiveMessageRealTime.Data
 {
     using System;
     using System.Data.Entity;
@@ -15,10 +15,10 @@ namespace WebReceiveMessageRealTime
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class Ajuma_devEntities : DbContext
+    public partial class PosEntities : DbContext
     {
-        public Ajuma_devEntities()
-            : base("name=Ajuma_devEntities")
+        public PosEntities()
+            : base("name=PosEntities")
         {
         }
     
@@ -28,6 +28,7 @@ namespace WebReceiveMessageRealTime
         }
     
         public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<Zalo_LogError> Zalo_LogError { get; set; }
     
         public virtual int sp_GetBillTransfer_Json(string jsonParam, ObjectParameter jsonOutput)
         {

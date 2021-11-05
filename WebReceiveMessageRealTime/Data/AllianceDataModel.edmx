@@ -1,0 +1,390 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AlliancePos_DevModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FB_Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Method" Type="nvarchar" MaxLength="500" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="Log_CreatedDate" Type="datetime" />
+          <Property Name="Log_CreatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="Log_UpdatedDate" Type="datetime" />
+          <Property Name="Log_UpdatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsDisable" Type="bit" Nullable="false" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="Param" Type="nvarchar(max)" />
+          <Property Name="TimeStampText" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="FB_MessengerRealtime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SenderId" Type="bigint" Nullable="false" />
+          <Property Name="RecipientId" Type="bigint" Nullable="false" />
+          <Property Name="TimeSend" Type="datetime" />
+          <Property Name="Message" Type="nvarchar" MaxLength="500" />
+          <Property Name="ImageUrl" Type="nvarchar(max)" />
+          <Property Name="Log_CreatedDate" Type="datetime" />
+          <Property Name="Log_CreatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="Log_UpdatedDate" Type="datetime" />
+          <Property Name="Log_UpdatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="TimeStampText" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="FB_PageInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PageId" Type="bigint" Nullable="false" />
+          <Property Name="PageName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Category" Type="nvarchar" MaxLength="250" />
+          <Property Name="AccessToken" Type="nvarchar" MaxLength="500" />
+          <Property Name="LinkToPage" Type="nvarchar" MaxLength="500" />
+          <Property Name="UpdatedTime" Type="datetime" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="Log_CreatedDate" Type="datetime" />
+          <Property Name="Log_CreatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="Log_UpdatedDate" Type="datetime" />
+          <Property Name="Log_UpdatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="TimeStampText" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="FBConversationDetail_Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConversationId" Type="nvarchar" MaxLength="250" />
+          <Property Name="CustomerFbName" Type="nvarchar" MaxLength="250" />
+          <Property Name="LinkToChat" Type="nvarchar(max)" />
+          <Property Name="ImageText" Type="nvarchar(max)" />
+          <Property Name="IsBankTransfer" Type="bit" Nullable="false" />
+          <Property Name="TimeReceiveFromSource" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="Log_CreatedDate" Type="datetime" />
+          <Property Name="Log_CreatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="Log_UpdatedDate" Type="datetime" />
+          <Property Name="Log_UpdatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="CusMoneyNotTransferBefore" Type="decimal" Precision="20" Scale="6" />
+          <Property Name="IsLikeBankTransfer" Type="bit" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="TimeStampText" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="FBConversationDetail_ImageBillNotPaidMoment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FBConversationDetail_ImageId" Type="bigint" />
+          <Property Name="BillId" Type="bigint" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="Log_CreatedDate" Type="datetime" />
+          <Property Name="Log_CreatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="Log_UpdatedDate" Type="datetime" />
+          <Property Name="Log_UpdatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="TimeStampText" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image">
+          <End Role="FBConversationDetail_Image" Type="Self.FBConversationDetail_Image" Multiplicity="0..1" />
+          <End Role="FBConversationDetail_ImageBillNotPaidMoment" Type="Self.FBConversationDetail_ImageBillNotPaidMoment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FBConversationDetail_Image">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FBConversationDetail_ImageBillNotPaidMoment">
+              <PropertyRef Name="FBConversationDetail_ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_Fb_GetCusBySenderId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SenderId" Type="bigint" Mode="In" />
+        </Function>
+        <EntityContainer Name="AlliancePos_DevModelStoreContainer">
+          <EntitySet Name="FB_Log" EntityType="Self.FB_Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FB_MessengerRealtime" EntityType="Self.FB_MessengerRealtime" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FB_PageInfo" EntityType="Self.FB_PageInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FBConversationDetail_Image" EntityType="Self.FBConversationDetail_Image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FBConversationDetail_ImageBillNotPaidMoment" EntityType="Self.FBConversationDetail_ImageBillNotPaidMoment" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image" Association="Self.FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image">
+            <End Role="FBConversationDetail_Image" EntitySet="FBConversationDetail_Image" />
+            <End Role="FBConversationDetail_ImageBillNotPaidMoment" EntitySet="FBConversationDetail_ImageBillNotPaidMoment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AlliancePos_DevModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="FB_Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Method" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="Log_CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Log_UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsDisable" Type="Boolean" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Param" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeStampText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FB_MessengerRealtime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SenderId" Type="Int64" Nullable="false" />
+          <Property Name="RecipientId" Type="Int64" Nullable="false" />
+          <Property Name="TimeSend" Type="DateTime" Precision="3" />
+          <Property Name="Message" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Log_CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Log_UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="TimeStampText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FBConversationDetail_Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConversationId" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerFbName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="LinkToChat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsBankTransfer" Type="Boolean" Nullable="false" />
+          <Property Name="TimeReceiveFromSource" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="Log_CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Log_UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CusMoneyNotTransferBefore" Type="Decimal" Precision="20" Scale="6" />
+          <Property Name="IsLikeBankTransfer" Type="Boolean" Nullable="false" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="TimeStampText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FBConversationDetail_ImageBillNotPaidMoment" Relationship="Self.FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image" FromRole="FBConversationDetail_Image" ToRole="FBConversationDetail_ImageBillNotPaidMoment" />
+        </EntityType>
+        <EntityType Name="FBConversationDetail_ImageBillNotPaidMoment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FBConversationDetail_ImageId" Type="Int64" />
+          <Property Name="BillId" Type="Int64" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="Log_CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Log_UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="TimeStampText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FBConversationDetail_Image" Relationship="Self.FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image" FromRole="FBConversationDetail_ImageBillNotPaidMoment" ToRole="FBConversationDetail_Image" />
+        </EntityType>
+        <Association Name="FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image">
+          <End Role="FBConversationDetail_Image" Type="Self.FBConversationDetail_Image" Multiplicity="0..1" />
+          <End Role="FBConversationDetail_ImageBillNotPaidMoment" Type="Self.FBConversationDetail_ImageBillNotPaidMoment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FBConversationDetail_Image">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FBConversationDetail_ImageBillNotPaidMoment">
+              <PropertyRef Name="FBConversationDetail_ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AllianceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FB_Log" EntityType="Self.FB_Log" />
+          <EntitySet Name="FB_MessengerRealtime" EntityType="Self.FB_MessengerRealtime" />
+          <EntitySet Name="FBConversationDetail_Image" EntityType="Self.FBConversationDetail_Image" />
+          <EntitySet Name="FBConversationDetail_ImageBillNotPaidMoment" EntityType="Self.FBConversationDetail_ImageBillNotPaidMoment" />
+          <AssociationSet Name="FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image" Association="Self.FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image">
+            <End Role="FBConversationDetail_Image" EntitySet="FBConversationDetail_Image" />
+            <End Role="FBConversationDetail_ImageBillNotPaidMoment" EntitySet="FBConversationDetail_ImageBillNotPaidMoment" />
+          </AssociationSet>
+          <FunctionImport Name="sp_Fb_GetCusBySenderId" ReturnType="Collection(AlliancePos_DevModel.sp_Fb_GetCusBySenderId_Result)">
+          <Parameter Name="SenderId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <EntitySet Name="FB_PageInfo" EntityType="AlliancePos_DevModel.FB_PageInfo" />
+        </EntityContainer>
+        <ComplexType Name="sp_Fb_GetCusBySenderId_Result">
+          <Property Type="String" Name="ConversationId" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="LinkToChat" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <EntityType Name="FB_PageInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageId" Type="Int64" Nullable="false" />
+          <Property Name="PageName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="AccessToken" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LinkToPage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedTime" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="Log_CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Log_UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="TimeStampText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AlliancePos_DevModelStoreContainer" CdmEntityContainer="AllianceEntities">
+          <EntitySetMapping Name="FB_Log">
+            <EntityTypeMapping TypeName="AlliancePos_DevModel.FB_Log">
+              <MappingFragment StoreEntitySet="FB_Log">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Log_CreatedDate" ColumnName="Log_CreatedDate" />
+                <ScalarProperty Name="Log_CreatedBy" ColumnName="Log_CreatedBy" />
+                <ScalarProperty Name="Log_UpdatedDate" ColumnName="Log_UpdatedDate" />
+                <ScalarProperty Name="Log_UpdatedBy" ColumnName="Log_UpdatedBy" />
+                <ScalarProperty Name="IsDisable" ColumnName="IsDisable" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Param" ColumnName="Param" />
+                <ScalarProperty Name="TimeStampText" ColumnName="TimeStampText" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FB_MessengerRealtime">
+            <EntityTypeMapping TypeName="AlliancePos_DevModel.FB_MessengerRealtime">
+              <MappingFragment StoreEntitySet="FB_MessengerRealtime">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+                <ScalarProperty Name="RecipientId" ColumnName="RecipientId" />
+                <ScalarProperty Name="TimeSend" ColumnName="TimeSend" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Log_CreatedDate" ColumnName="Log_CreatedDate" />
+                <ScalarProperty Name="Log_CreatedBy" ColumnName="Log_CreatedBy" />
+                <ScalarProperty Name="Log_UpdatedDate" ColumnName="Log_UpdatedDate" />
+                <ScalarProperty Name="Log_UpdatedBy" ColumnName="Log_UpdatedBy" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="TimeStampText" ColumnName="TimeStampText" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FBConversationDetail_Image">
+            <EntityTypeMapping TypeName="AlliancePos_DevModel.FBConversationDetail_Image">
+              <MappingFragment StoreEntitySet="FBConversationDetail_Image">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+                <ScalarProperty Name="CustomerFbName" ColumnName="CustomerFbName" />
+                <ScalarProperty Name="LinkToChat" ColumnName="LinkToChat" />
+                <ScalarProperty Name="ImageText" ColumnName="ImageText" />
+                <ScalarProperty Name="IsBankTransfer" ColumnName="IsBankTransfer" />
+                <ScalarProperty Name="TimeReceiveFromSource" ColumnName="TimeReceiveFromSource" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Log_CreatedDate" ColumnName="Log_CreatedDate" />
+                <ScalarProperty Name="Log_CreatedBy" ColumnName="Log_CreatedBy" />
+                <ScalarProperty Name="Log_UpdatedDate" ColumnName="Log_UpdatedDate" />
+                <ScalarProperty Name="Log_UpdatedBy" ColumnName="Log_UpdatedBy" />
+                <ScalarProperty Name="CusMoneyNotTransferBefore" ColumnName="CusMoneyNotTransferBefore" />
+                <ScalarProperty Name="IsLikeBankTransfer" ColumnName="IsLikeBankTransfer" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="TimeStampText" ColumnName="TimeStampText" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FBConversationDetail_ImageBillNotPaidMoment">
+            <EntityTypeMapping TypeName="AlliancePos_DevModel.FBConversationDetail_ImageBillNotPaidMoment">
+              <MappingFragment StoreEntitySet="FBConversationDetail_ImageBillNotPaidMoment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FBConversationDetail_ImageId" ColumnName="FBConversationDetail_ImageId" />
+                <ScalarProperty Name="BillId" ColumnName="BillId" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Log_CreatedDate" ColumnName="Log_CreatedDate" />
+                <ScalarProperty Name="Log_CreatedBy" ColumnName="Log_CreatedBy" />
+                <ScalarProperty Name="Log_UpdatedDate" ColumnName="Log_UpdatedDate" />
+                <ScalarProperty Name="Log_UpdatedBy" ColumnName="Log_UpdatedBy" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="TimeStampText" ColumnName="TimeStampText" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Fb_GetCusBySenderId" FunctionName="AlliancePos_DevModel.Store.sp_Fb_GetCusBySenderId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AlliancePos_DevModel.sp_Fb_GetCusBySenderId_Result">
+                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="LinkToChat" ColumnName="LinkToChat" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="FB_PageInfo">
+            <EntityTypeMapping TypeName="AlliancePos_DevModel.FB_PageInfo">
+              <MappingFragment StoreEntitySet="FB_PageInfo">
+                <ScalarProperty Name="TimeStampText" ColumnName="TimeStampText" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Log_UpdatedBy" ColumnName="Log_UpdatedBy" />
+                <ScalarProperty Name="Log_UpdatedDate" ColumnName="Log_UpdatedDate" />
+                <ScalarProperty Name="Log_CreatedBy" ColumnName="Log_CreatedBy" />
+                <ScalarProperty Name="Log_CreatedDate" ColumnName="Log_CreatedDate" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UpdatedTime" ColumnName="UpdatedTime" />
+                <ScalarProperty Name="LinkToPage" ColumnName="LinkToPage" />
+                <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="PageName" ColumnName="PageName" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -69,6 +69,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\Ezy.Module.Facebook.Share.dll</HintPath>
     </Reference>
+    <Reference Include="Ezy.Module.Library">
+      <HintPath>..\Libs\Ezy.Module.Library.dll</HintPath>
+    </Reference>
     <Reference Include="Ezy.Module.MSSQLRepository">
       <HintPath>..\Libs\Ezy.Module.MSSQLRepository.dll</HintPath>
     </Reference>
@@ -152,21 +155,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AjumaDb.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AjumaDb.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AjumaDb.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AjumaDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AjumaDb.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AjumaDb.edmx</DependentUpon>
-    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -203,32 +191,59 @@
     <Compile Include="Controllers\PinterestController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\WebhookController.cs" />
-    <Compile Include="FBConversationDetail_Image.cs">
-      <DependentUpon>FB_MessengerRealtime.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FBConversationDetail_ImageBillNotPaidMoment.cs">
-      <DependentUpon>FB_MessengerRealtime.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FB_Log.cs">
-      <DependentUpon>FB_MessengerRealtime.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FB_MessengerRealtime.Context.cs">
+    <Compile Include="Data\AllianceDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FB_MessengerRealtime.Context.tt</DependentUpon>
+      <DependentUpon>AllianceDataModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="FB_MessengerRealtime.cs">
-      <DependentUpon>FB_MessengerRealtime.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FB_MessengerRealtime.Designer.cs">
+    <Compile Include="Data\AllianceDataModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FB_MessengerRealtime.edmx</DependentUpon>
+      <DependentUpon>AllianceDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="FB_MessengerRealtime1.cs">
+    <Compile Include="Data\AllianceDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FB_MessengerRealtime.tt</DependentUpon>
+      <DependentUpon>AllianceDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\FBConversationDetail_Image.cs">
+      <DependentUpon>AllianceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\FBConversationDetail_ImageBillNotPaidMoment.cs">
+      <DependentUpon>AllianceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\FB_Log.cs">
+      <DependentUpon>AllianceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\FB_MessengerRealtime.cs">
+      <DependentUpon>AllianceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\FB_PageInfo.cs">
+      <DependentUpon>AllianceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PosDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PosDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PosDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PosDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PosDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PosDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\sp_Fb_GetCusBySenderId_Result.cs">
+      <DependentUpon>AllianceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Supplier.cs">
+      <DependentUpon>PosDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Zalo_LogError.cs">
+      <DependentUpon>PosDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -236,6 +251,7 @@
     <Compile Include="Models\Feed.cs" />
     <Compile Include="Models\ImageDetailModel.cs" />
     <Compile Include="Models\MessageReceiveModel.cs" />
+    <Compile Include="Models\SettingModel.cs" />
     <Compile Include="Models\sp_GetBillTransfer_Json_Param.cs" />
     <Compile Include="Models\sp_GetBillTransfer_Json_Result.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -246,27 +262,12 @@
     </Compile>
     <Compile Include="Share\DatabaseConnect.cs" />
     <Compile Include="Share\ShareDataHelper.cs" />
-    <Compile Include="sp_Fb_GetCusBySenderId_Result.cs">
-      <DependentUpon>FB_MessengerRealtime.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Supplier.cs">
-      <DependentUpon>AjumaDb.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AjumaDb.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AjumaDb.edmx</DependentUpon>
-      <LastGenOutput>AjumaDb.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="AjumaDb.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AjumaDb.edmx</DependentUpon>
-      <LastGenOutput>AjumaDb.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_Data\Setting_Ajuma.txt" />
-    <Content Include="App_Data\Setting_Facebook.txt" />
-    <Content Include="App_Data\Setting_PageFacebook.txt" />
+    <Content Include="App_Data\Setting_Business_TraiCayNguyenThung.txt" />
+    <Content Include="App_Data\Setting_Core_Ajuma.txt" />
+    <Content Include="App_Data\Setting_Business_Ajuma.txt" />
+    <Content Include="App_Data\Setting_Core_TraiCayNguyenThung.txt" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -274,32 +275,28 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Data\AllianceDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AllianceDataModel.edmx</DependentUpon>
+      <LastGenOutput>AllianceDataModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\AllianceDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AllianceDataModel.edmx</DependentUpon>
+      <LastGenOutput>AllianceDataModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\PosDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PosDataModel.edmx</DependentUpon>
+      <LastGenOutput>PosDataModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\PosDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PosDataModel.edmx</DependentUpon>
+      <LastGenOutput>PosDataModel.cs</LastGenOutput>
+    </Content>
     <Content Include="favicon.ico" />
-    <Content Include="FB_MessengerRealtime.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>FB_MessengerRealtime.edmx</DependentUpon>
-      <LastGenOutput>FB_MessengerRealtime.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="FB_MessengerRealtime.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>FB_MessengerRealtime.edmx</DependentUpon>
-      <LastGenOutput>FB_MessengerRealtime1.cs</LastGenOutput>
-    </Content>
     <Content Include="Global.asax" />
-    <EntityDeploy Include="FB_MessengerRealtime.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>FB_MessengerRealtime.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="FB_MessengerRealtime.edmx.diagram">
-      <DependentUpon>FB_MessengerRealtime.edmx</DependentUpon>
-    </Content>
-    <EntityDeploy Include="AjumaDb.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>AjumaDb.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="AjumaDb.edmx.diagram">
-      <DependentUpon>AjumaDb.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\HelpPage\Views\Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -327,6 +324,22 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Configs\Fb_ImageConfig.json" />
+    <EntityDeploy Include="Data\PosDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>PosDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\PosDataModel.edmx.diagram">
+      <DependentUpon>PosDataModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Data\AllianceDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AllianceDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\AllianceDataModel.edmx.diagram">
+      <DependentUpon>AllianceDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Configs\Facebook.json" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <Content Include="Scripts\bootstrap.bundle.js" />

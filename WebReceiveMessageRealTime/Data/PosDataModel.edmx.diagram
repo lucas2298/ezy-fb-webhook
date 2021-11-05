@@ -4,8 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8487a4cdd02046cb8646a102ff96d83c" Name="Diagram1" >
-        <EntityTypeShape EntityType="Ajuma_devModel.Supplier" Width="1.5" PointX="0.75" PointY="0.75" />
+      <Diagram DiagramId="644d8d51e94a4d80967c1dd668b28175" Name="Diagram1" ZoomLevel="31">
+        <EntityTypeShape EntityType="Ajuma_DevModel.Supplier" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Ajuma_DevModel.Zalo_LogError" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

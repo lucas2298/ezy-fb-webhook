@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6d39e59fa00b49bab5bb63ae06416d86" Name="Diagram1">
+        <EntityTypeShape EntityType="AlliancePos_DevModel.FB_Log" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlliancePos_DevModel.FB_MessengerRealtime" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlliancePos_DevModel.FBConversationDetail_Image" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlliancePos_DevModel.FBConversationDetail_ImageBillNotPaidMoment" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <AssociationConnector Association="AlliancePos_DevModel.FK_FBConversationDetail_ImageMoment_FBConversationDetail_Image" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AlliancePos_DevModel.FB_PageInfo" Width="1.5" PointX="5.375" PointY="5.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

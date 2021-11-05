@@ -7,23 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebReceiveMessageRealTime
+namespace WebReceiveMessageRealTime.Data
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class FB_Log
+    public partial class FBConversationDetail_ImageBillNotPaidMoment
     {
         public long Id { get; set; }
-        public string Method { get; set; }
-        public string Message { get; set; }
+        public Nullable<long> FBConversationDetail_ImageId { get; set; }
+        public Nullable<long> BillId { get; set; }
         public bool IsDeleted { get; set; }
         public Nullable<System.DateTime> Log_CreatedDate { get; set; }
         public string Log_CreatedBy { get; set; }
         public Nullable<System.DateTime> Log_UpdatedDate { get; set; }
         public string Log_UpdatedBy { get; set; }
-        public bool IsDisable { get; set; }
-        public string Note { get; set; }
-        public byte[] Timestamp { get; set; }
+        public byte[] TimeStamp { get; set; }
+        public string TimeStampText { get; set; }
+    
+        public virtual FBConversationDetail_Image FBConversationDetail_Image { get; set; }
     }
 }

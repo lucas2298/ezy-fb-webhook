@@ -36,6 +36,7 @@ namespace WebReceiveMessageRealTime.Models
     }
     public class Entry
     {
+        public string id { get; set; }
         public double time { get; set; }
         public List<MessagingModel> messaging { get; set; }
     }

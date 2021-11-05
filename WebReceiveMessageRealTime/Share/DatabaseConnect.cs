@@ -6,44 +6,50 @@ using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web;
 using WebReceiveMessageRealTime.Models;
+using WebReceiveMessageRealTime.Data;
+using WebReceiveMessageRealTime.Share;
 
-namespace WebReceiveMessageRealTime
+namespace WebReceiveMessageRealTime.Data
 {
-    public partial class SOLIDDB_DEVEntities
+    public partial class AllianceEntities
     {
-        public SOLIDDB_DEVEntities(string connectionString)
-            : base(connectionString)
+        public AllianceEntities(string connectionString) : base(connectionString)
         {
         }
     }
-    public partial class Ajuma_devEntities
+    public partial class PosEntities
     {
-        public Ajuma_devEntities(string connectionString) : base(connectionString)
+        public PosEntities(string connectionString) : base(connectionString)
         {
-
         }
     }
 }
-namespace WebReceiveMessageRealTime.Share
+namespace WebReceiveMessageRealTime.Data
 {
-    public class DatabaseConnect
+    public class AllianceConnect
     {
-        public string stringMetadata = "FB_MessengerRealtime.csdl|res://*/FB_MessengerRealtime.ssdl|res://*/FB_MessengerRealtime.msl";
+        public string stringMetadata = "Data.AllianceDataModel.csdl|res://*/Data.AllianceDataModel.ssdl|res://*/Data.AllianceDataModel.msl";
         private static string sConnect = string.Empty;
-        public DatabaseConnect(string connectionString)
+        public AllianceConnect(string connectionString)
         {
             sConnect = DataConnectionManager.GetDataConnectionString_With_ConnectionString(connectionString, stringMetadata);
-            db = new SOLIDDB_DEVEntities(sConnect);
+            db = new AllianceEntities(sConnect);
         }
         public string GetsConnect()
         {
             return sConnect;
         }
-        ~DatabaseConnect()
+        ~AllianceConnect()
         {
             db.Dispose();
         }
-        private SOLIDDB_DEVEntities db;
+        private AllianceEntities db;
+
+        #region Method
+        public FB_PageInfo GetPageInfoByPageId(long pageId)
+        {
+            return db.FB_PageInfo.FirstOrDefault(c => c.PageId == pageId);
+        }
         public void Add_FB_MessengerRealtime(FB_MessengerRealtime item)
         {
             db.FB_MessengerRealtime.Add(item);
@@ -78,25 +84,28 @@ namespace WebReceiveMessageRealTime.Share
         {
             db.SaveChanges();
         }
+        #endregion
     }
-    public class AjumaDataConnect
+
+    public class PosDataConnect
     {
-        public string stringMetadata = "AjumaDb.csdl|res://*/AjumaDb.ssdl|res://*/AjumaDb.msl";
+        public string stringMetadata = "Data.PosDataModel.csdl|res://*/Data.PosDataModel.ssdl|res://*/Data.PosDataModel.msl";
         private static string sConnect = string.Empty;
-        public AjumaDataConnect(string connectionString)
+        public PosDataConnect(string connectionString)
         {
             sConnect = DataConnectionManager.GetDataConnectionString_With_ConnectionString(connectionString, stringMetadata);
-            db = new Ajuma_devEntities(sConnect);
+            db_Business = new PosEntities(sConnect);
         }
         public string GetsConnect()
         {
             return sConnect;
         }
-        ~AjumaDataConnect()
+        ~PosDataConnect()
         {
-            db.Dispose();
+            db_Business.Dispose();
         }
-        private Ajuma_devEntities db;
+        private PosEntities db_Business;
+        #region Method
         /// <summary>
         /// Lấy khách hàng đã được mapping với facebook
         /// </summary>
@@ -104,7 +113,7 @@ namespace WebReceiveMessageRealTime.Share
         /// <returns></returns>
         public long[] GetSupplier(string LinkToChat)
         {
-            return db.Suppliers.ToArray().Where(c => c.FacebookURL == LinkToChat && c.IsDeleted == false).Select(c => c.Id).ToArray();
+            return db_Business.Suppliers.ToArray().Where(c => c.FacebookURL == LinkToChat && c.IsDeleted == false).Select(c => c.Id).ToArray();
         }
         /// <summary>
         /// Hàm sẽ tính số tiền mà khách còn nợ.
@@ -113,7 +122,7 @@ namespace WebReceiveMessageRealTime.Share
         /// <param name="supplierId"></param>
         /// <param name="TimeReceiveFromSource"></param>
         /// <returns></returns>
-        public decimal? GetCusMoneyNotTransferBefore(long[] supplierId, DateTime? TimeReceiveFromSource, long fbImageId)
+        public decimal? GetCusMoneyNotTransferBefore(long[] supplierId, DateTime? TimeReceiveFromSource, long fbImageId, AllianceConnect db_Core)
         {
             decimal? CusMoneyNotTransferBefore = 0.0m;
             try
@@ -125,17 +134,17 @@ namespace WebReceiveMessageRealTime.Share
                 var result = new List<sp_GetBillTransfer_Json_Result>();
                 var sParamJson = JsonConvert.SerializeObject(param);
                 ObjectParameter output = new ObjectParameter("jsonOutput", "");
-                db.sp_GetBillTransfer_Json(sParamJson, output);
+                db_Business.sp_GetBillTransfer_Json(sParamJson, output);
                 var jsonString = output.Value.ToString();
                 if (!string.IsNullOrEmpty(jsonString))
                 {
                     result = JsonConvert.DeserializeObject<List<sp_GetBillTransfer_Json_Result>>(jsonString);
                 }
                 var imageMomentList = new List<FBConversationDetail_ImageBillNotPaidMoment>();
-                var dbFB = new DatabaseConnect(ShareDataHelper.GetConnectionStringFB());
                 foreach (var sId in supplierId)
                 {
-                    CusMoneyNotTransferBefore += result.Where(c => {
+                    CusMoneyNotTransferBefore += result.Where(c =>
+                    {
                         var flag = false;
                         if (c.EntDate <= TimeReceiveFromSource && c.SupplierId == sId)
                         {
@@ -151,15 +160,16 @@ namespace WebReceiveMessageRealTime.Share
                 }
                 if (imageMomentList != null && imageMomentList.Count() > 0)
                 {
-                    dbFB.AddRange_FBConversationDetail_ImageMoment(imageMomentList.ToArray());
-                    dbFB.SaveChanges();
+                    db_Core.AddRange_FBConversationDetail_ImageMoment(imageMomentList.ToArray());
+                    db_Core.SaveChanges();
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 CusMoneyNotTransferBefore = -1;
             }
             return CusMoneyNotTransferBefore;
         }
+        #endregion
     }
 }

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebReceiveMessageRealTime
+namespace WebReceiveMessageRealTime.Data
 {
     using System;
     using System.Data.Entity;
@@ -15,10 +15,10 @@ namespace WebReceiveMessageRealTime
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class SOLIDDB_DEVEntities : DbContext
+    public partial class AllianceEntities : DbContext
     {
-        public SOLIDDB_DEVEntities()
-            : base("name=SOLIDDB_DEVEntities")
+        public AllianceEntities()
+            : base("name=AllianceEntities")
         {
         }
     
@@ -27,10 +27,11 @@ namespace WebReceiveMessageRealTime
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<FB_Log> FB_Log { get; set; }
         public virtual DbSet<FB_MessengerRealtime> FB_MessengerRealtime { get; set; }
         public virtual DbSet<FBConversationDetail_Image> FBConversationDetail_Image { get; set; }
         public virtual DbSet<FBConversationDetail_ImageBillNotPaidMoment> FBConversationDetail_ImageBillNotPaidMoment { get; set; }
-        public virtual DbSet<FB_Log> FB_Log { get; set; }
+        public virtual DbSet<FB_PageInfo> FB_PageInfo { get; set; }
     
         public virtual ObjectResult<sp_Fb_GetCusBySenderId_Result> sp_Fb_GetCusBySenderId(Nullable<long> senderId)
         {

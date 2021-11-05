@@ -16,52 +16,36 @@ using System.Text.RegularExpressions;
 using Winsoft.Ocr;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using WebReceiveMessageRealTime.Data;
+using WebReceiveMessageRealTime.Models;
 
 namespace WebReceiveMessageRealTime.Share
 {
     public static class ShareDataHelper
     {
-        private static string sConnectionString = string.Empty;
-        private static string sConnectionStringAjuma = string.Empty;
         private static string baseStringPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "BaseString.txt");
         private static string[] baseStringList = File.ReadAllText(baseStringPath).Replace("\r", "").Replace(",", "").Split('\n');
-        public static string GetConnectionStringFB()
+
+        public static Image DownloadImageFromUrl(string imageUrl)
         {
-            if (sConnectionString == string.Empty)
-            {
-                sConnectionString = DataConnectionManager.GetSimpleConnectionString("Setting_Facebook.txt");
-            }
-            return sConnectionString;
-        }
-        public static string GetConnectionStringAjuma()
-        {
-            if (sConnectionStringAjuma == string.Empty)
-            {
-                sConnectionStringAjuma = DataConnectionManager.GetSimpleConnectionString("Setting_Ajuma.txt");
-            }
-            return sConnectionStringAjuma;
-        }
-        public static System.Drawing.Image DownloadImageFromUrl(string imageUrl)
-        {
-            System.Drawing.Image image = null;
+            Image image = null;
 
             try
             {
                 System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(imageUrl);
                 webRequest.AllowWriteStreamBuffering = true;
-                webRequest.Timeout = 30000;
+                webRequest.Timeout = 10000;
 
                 System.Net.WebResponse webResponse = webRequest.GetResponse();
 
-                System.IO.Stream stream = webResponse.GetResponseStream();
+                Stream stream = webResponse.GetResponseStream();
 
-                image = System.Drawing.Image.FromStream(stream);
+                image = Image.FromStream(stream);
 
-                webResponse.Close();
+                webResponse.Dispose();
             }
-            catch (Exception ex)
+            catch
             {
-                return null;
             }
 
             return image;
@@ -127,7 +111,8 @@ namespace WebReceiveMessageRealTime.Share
         {
             List<string> listString = new List<string>(string_1.Split(' '));
             var _listString = string_2.Split(' ').ToList();
-            _listString.ForEach(c => {
+            _listString.ForEach(c =>
+            {
                 if (!listString.Contains(c)) listString.Add(c);
             });
             string_1 = string.Join(" ", listString);
@@ -198,40 +183,45 @@ namespace WebReceiveMessageRealTime.Share
             try
             {
                 var img = DownloadImageFromUrl(Url);
-                //img.Save(@"D:\WebReceiveMessageRealTime\WebReceiveMessageRealTime\Image\TestDownload.jpg");
-                //var img = Image.FromFile(@"D:\WebReceiveMessageRealTime\WebReceiveMessageRealTime\Image\testBase.jpg");
-                var imgZoom = ResizeImage(img, img.Width + 400 , img.Height + 100);
-                //imgZoom.Save(@"D:\WebReceiveMessageRealTime\WebReceiveMessageRealTime\Image\TestResize - Copy.jpg");
-                // First setting
-                var ocr_vie = new Ocr()
+                if (img != null)
                 {
-                    DataPath = null,
-                    Language = Winsoft.Ocr.Language.Vietnamese,
-                    LanguageCode = "vie",
-                    PdfFileName = "",
-                    PdfTitle = "",
-                    PictureFileName = null,
-                };
-                var ocr_eng = new Ocr()
+                    var imgZoom = ResizeImage(img, img.Width + 400, img.Height + 100);
+                    // First setting
+                    var ocr_vie = new Ocr()
+                    {
+                        DataPath = null,
+                        Language = Winsoft.Ocr.Language.Vietnamese,
+                        LanguageCode = "vie",
+                        PdfFileName = "",
+                        PdfTitle = "",
+                        PictureFileName = null,
+                    };
+                    var ocr_eng = new Ocr()
+                    {
+                        DataPath = null,
+                        Language = Winsoft.Ocr.Language.English,
+                        LanguageCode = "eng",
+                        PdfFileName = "",
+                        PdfTitle = "",
+                        PictureFileName = null,
+                    };
+                    // Normal img
+                    ocr_vie.Picture = img;
+                    ocr_eng.Picture = img;
+                    flag = GetTextInImage(ocr_vie, ocr_eng, out imageText);
+                    // Zoom img
+                    ocr_vie.Picture = imgZoom;
+                    ocr_eng.Picture = imgZoom;
+                    if (!flag) flag = GetTextInImage(ocr_vie, ocr_eng, out imageTextZoom);
+                    else GetTextInImage(ocr_vie, ocr_eng, out imageTextZoom);
+                    imageText = Join2StringNoDup(imageText, imageTextZoom);
+                    if (flag) SignalDownloadExcel();
+                    img.Dispose();
+                }
+                else
                 {
-                    DataPath = null,
-                    Language = Winsoft.Ocr.Language.English,
-                    LanguageCode = "eng",
-                    PdfFileName = "",
-                    PdfTitle = "",
-                    PictureFileName = null,
-                };
-                // Normal img
-                ocr_vie.Picture = img;
-                ocr_eng.Picture = img;
-                flag = GetTextInImage(ocr_vie, ocr_eng, out imageText);
-                // Zoom img
-                ocr_vie.Picture = imgZoom;
-                ocr_eng.Picture = imgZoom;
-                if (!flag) flag = GetTextInImage(ocr_vie, ocr_eng, out imageTextZoom);
-                else GetTextInImage(ocr_vie, ocr_eng, out imageTextZoom);
-                imageText = Join2StringNoDup(imageText, imageTextZoom);
-                if (flag) SignalDownloadExcel();
+                    sMessage = "Can not download image";
+                }
             }
             catch (Exception ex)
             {
@@ -280,30 +270,47 @@ namespace WebReceiveMessageRealTime.Share
             return sMessage;
         }
         private static GetFBConversationEngine engine;
-        public static GetFBConversationEngine GetFBEngine()
+        public static void UpdateEngine(SettingModel setting)
         {
+            var pageId = setting.PageId;
+            var connectionString = DataConnectionManager.GetSimpleConnectionString(setting.Setting_Core);
+            var db = new AllianceConnect(connectionString);
+            var page = db.GetPageInfoByPageId(Convert.ToInt64(pageId));
+            if (page != null)
+            {
+                engine.access_token = page.AccessToken;
+                engine.connectionString = connectionString;
+                engine.pageId = setting.PageId;
+                engine.package = new PackageMSSQL(connectionString);
+            }
+        }
+        public static GetFBConversationEngine GetFBEngine(SettingModel setting, out string sMessage)
+        {
+            sMessage = string.Empty;
             if (engine == null)
             {
                 try
                 {
-                    var fileContents = System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~/App_Data/Setting_PageFacebook.txt"));
-                    if (fileContents != null && fileContents != string.Empty)
+                    var pageId = setting.PageId;
+                    var connectionString = DataConnectionManager.GetSimpleConnectionString(setting.Setting_Core);
+                    var db = new AllianceConnect(connectionString);
+                    var page = db.GetPageInfoByPageId(Convert.ToInt64(pageId));
+                    if (page != null)
                     {
-                        var dictData = JsonConvert.DeserializeObject<Dictionary<string, string>>(fileContents);
-                        var connectionString = GetConnectionStringFB();
                         engine = new GetFBConversationEngine()
                         {
-                            access_token = dictData["access_token"],
+                            access_token = page.AccessToken,
                             connectionString = connectionString,
-                            pageId = dictData["pageId"],
+                            pageId = page.PageId.ToString(),
                             package = new PackageMSSQL(connectionString)
                         };
                         engine.StartEngine();
                     }
+                    else throw new Exception($"No Fanpage found with PageId {page.Id}");
                 }
                 catch (Exception ex)
                 {
-#warning Cần lưu log
+                    sMessage = ex.Message;
                 }
             }
             return engine;

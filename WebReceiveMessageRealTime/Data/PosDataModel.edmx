@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Ajuma_DevModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierId" />
+          </Key>
+          <Property Name="SupplierId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupplierCode" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="SupplierName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="SupplierName_UnSign" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="SupplierShortName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="SupplierEmployerName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="SupplierEmployerPhone" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="SupplierEmployerEmail" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="TaxCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Trade" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="AccountBank" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Bank" Type="bigint" Nullable="false" />
+          <Property Name="TypeId" Type="bigint" Nullable="false" />
+          <Property Name="AccDebit" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DebtNorm" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="Note" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="InValid" Type="bit" Nullable="false" />
+          <Property Name="Disable" Type="bit" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="TimeStampCode" Type="varbinary" MaxLength="8" />
+          <Property Name="ClientCode" Type="nvarchar" MaxLength="255" />
+          <Property Name="SyncCode" Type="nvarchar" MaxLength="255" />
+          <Property Name="VisibleBit" Type="char" MaxLength="1" />
+          <Property Name="DebitLimit" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="SumOffDebitDay" Type="int" Nullable="false" />
+          <Property Name="BirthDay" Type="datetime" />
+          <Property Name="NumberOfContracts" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="FirstRevenue" Type="bigint" />
+          <Property Name="ContractDate" Type="datetime" />
+          <Property Name="CMND" Type="nvarchar" MaxLength="50" />
+          <Property Name="FormOfPayment" Type="bigint" Nullable="false" />
+          <Property Name="StatusSupplier" Type="int" Nullable="false" />
+          <Property Name="ContractEndDate" Type="datetime" Nullable="false" />
+          <Property Name="IsShip" Type="bit" Nullable="false" />
+          <Property Name="PhanTramCKDungHanTT" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="PhanTramPhatTraCham" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="PhanTramCKMuaHang" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="HanMucTinDung" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="TargetNam" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="ThuongNam" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="TargetQuy" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="ThuongQuy" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="CKGoiHang" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="HoTroTrungBay" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="HoTroMarKeting" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="AutoLogOnCode_LastUpdate_ById" Type="bigint" Nullable="false" />
+          <Property Name="AutoLogOnCode_LastUpdate_ByFullName" Type="nvarchar" MaxLength="250" />
+          <Property Name="AutoLogOnCode_LastUpdate_DateTime" Type="datetime" />
+          <Property Name="AutoLogOnCode_LastUpdate_IP" Type="nvarchar" MaxLength="50" />
+          <Property Name="AutoLogOnCode_LastUpdate_ComputerName" Type="nvarchar" MaxLength="250" />
+          <Property Name="AutoLogOnCode_LastUpdate_MACAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProvinceId" Type="bigint" />
+          <Property Name="ProvinceName" Type="nvarchar" MaxLength="255" />
+          <Property Name="DistrictId" Type="bigint" />
+          <Property Name="DistrictName" Type="nvarchar" MaxLength="255" />
+          <Property Name="WardId" Type="bigint" />
+          <Property Name="WardName" Type="nvarchar" MaxLength="255" />
+          <Property Name="Accounting_SubNumber" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Accounting_Number" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="GenderId" Type="bigint" Nullable="false" />
+          <Property Name="GrpSupplierId" Type="bigint" />
+          <Property Name="Supplier_Offline_Id" Type="bigint" />
+          <Property Name="Supplier_Offline_Code" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Supplier_Offline_SyncCode" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="MixSupplierId" Type="bigint" />
+          <Property Name="BirthDay_ConvertVarChar" Type="varchar" MaxLength="6" StoreGeneratedPattern="Computed" />
+          <Property Name="SupplierName_English" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RegionalId" Type="bigint" />
+          <Property Name="Supplier_BodyLookingId" Type="bigint" />
+          <Property Name="TimeStampText" Type="nvarchar" MaxLength="50" />
+          <Property Name="GrpSupplierCode" Type="nvarchar" MaxLength="250" />
+          <Property Name="FacebookURL" Type="nvarchar" MaxLength="500" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="GrpSupplier4ReportId" Type="bigint" />
+          <Property Name="SupplierNameOfficial" Type="nvarchar" MaxLength="500" />
+          <Property Name="BehalfTitle" Type="nvarchar" MaxLength="255" />
+          <Property Name="BehalfName" Type="nvarchar" MaxLength="255" />
+          <Property Name="BehalfPosition" Type="nvarchar" MaxLength="255" />
+          <Property Name="AutoMap_KeyWords" Type="nvarchar(max)" />
+          <Property Name="Log_CreatedDate" Type="datetime" />
+          <Property Name="Log_CreatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="Log_UpdatedDate" Type="datetime" />
+          <Property Name="Log_UpdatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="MappingDate" Type="datetime" />
+          <Property Name="MappingBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="Address_Unsign" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Zalo_LogError">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Method" Type="nvarchar" MaxLength="500" />
+          <Property Name="Param" Type="nvarchar(max)" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="TimeStampText" Type="nvarchar" MaxLength="50" />
+          <Property Name="Log_CreatedDate" Type="datetime" />
+          <Property Name="Log_CreatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="Log_UpdatedDate" Type="datetime" />
+          <Property Name="Log_UpdatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <Function Name="sp_GetBillTransfer_Json" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="jsonParam" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="jsonOutput" Type="nvarchar(max)" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="Ajuma_DevModelStoreContainer">
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zalo_LogError" EntityType="Self.Zalo_LogError" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Ajuma_DevModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierId" />
+          </Key>
+          <Property Name="SupplierId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SupplierName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SupplierName_UnSign" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SupplierShortName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SupplierEmployerName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SupplierEmployerPhone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SupplierEmployerEmail" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TaxCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Trade" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fax" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AccountBank" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Bank" Type="Int64" Nullable="false" />
+          <Property Name="TypeId" Type="Int64" Nullable="false" />
+          <Property Name="AccDebit" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DebtNorm" Type="Decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="InValid" Type="Boolean" Nullable="false" />
+          <Property Name="Disable" Type="Boolean" Nullable="false" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="TimeStampCode" Type="Binary" MaxLength="8" FixedLength="false" />
+          <Property Name="ClientCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SyncCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="VisibleBit" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="DebitLimit" Type="Decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="SumOffDebitDay" Type="Int32" Nullable="false" />
+          <Property Name="BirthDay" Type="DateTime" Precision="3" />
+          <Property Name="NumberOfContracts" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstRevenue" Type="Int64" />
+          <Property Name="ContractDate" Type="DateTime" Precision="3" />
+          <Property Name="CMND" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FormOfPayment" Type="Int64" Nullable="false" />
+          <Property Name="StatusSupplier" Type="Int32" Nullable="false" />
+          <Property Name="ContractEndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsShip" Type="Boolean" Nullable="false" />
+          <Property Name="PhanTramCKDungHanTT" Type="Decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="PhanTramPhatTraCham" Type="Decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="PhanTramCKMuaHang" Type="Decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="HanMucTinDung" Type="Decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="TargetNam" Type="Decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="ThuongNam" Type="Decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="TargetQuy" Type="Decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="ThuongQuy" Type="Decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="CKGoiHang" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HoTroTrungBay" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HoTroMarKeting" Type="Decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="AutoLogOnCode_LastUpdate_ById" Type="Int64" Nullable="false" />
+          <Property Name="AutoLogOnCode_LastUpdate_ByFullName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="AutoLogOnCode_LastUpdate_DateTime" Type="DateTime" Precision="3" />
+          <Property Name="AutoLogOnCode_LastUpdate_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AutoLogOnCode_LastUpdate_ComputerName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="AutoLogOnCode_LastUpdate_MACAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProvinceId" Type="Int64" />
+          <Property Name="ProvinceName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DistrictId" Type="Int64" />
+          <Property Name="DistrictName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="WardId" Type="Int64" />
+          <Property Name="WardName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Accounting_SubNumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Accounting_Number" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="GenderId" Type="Int64" Nullable="false" />
+          <Property Name="GrpSupplierId" Type="Int64" />
+          <Property Name="Supplier_Offline_Id" Type="Int64" />
+          <Property Name="Supplier_Offline_Code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Supplier_Offline_SyncCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MixSupplierId" Type="Int64" />
+          <Property Name="BirthDay_ConvertVarChar" Type="String" MaxLength="6" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="SupplierName_English" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RegionalId" Type="Int64" />
+          <Property Name="Supplier_BodyLookingId" Type="Int64" />
+          <Property Name="TimeStampText" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GrpSupplierCode" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="FacebookURL" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="GrpSupplier4ReportId" Type="Int64" />
+          <Property Name="SupplierNameOfficial" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BehalfTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="BehalfName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="BehalfPosition" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AutoMap_KeyWords" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Log_CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Log_UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MappingDate" Type="DateTime" Precision="3" />
+          <Property Name="MappingBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Address_Unsign" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Zalo_LogError">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Method" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Param" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="TimeStampText" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Log_CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Log_UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Log_UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="PosEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+          <EntitySet Name="Zalo_LogError" EntityType="Self.Zalo_LogError" />
+          <FunctionImport Name="sp_GetBillTransfer_Json">
+            <Parameter Name="jsonParam" Mode="In" Type="String" />
+            <Parameter Name="jsonOutput" Mode="InOut" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Ajuma_DevModelStoreContainer" CdmEntityContainer="PosEntities">
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="Ajuma_DevModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="SupplierCode" ColumnName="SupplierCode" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="SupplierName_UnSign" ColumnName="SupplierName_UnSign" />
+                <ScalarProperty Name="SupplierShortName" ColumnName="SupplierShortName" />
+                <ScalarProperty Name="SupplierEmployerName" ColumnName="SupplierEmployerName" />
+                <ScalarProperty Name="SupplierEmployerPhone" ColumnName="SupplierEmployerPhone" />
+                <ScalarProperty Name="SupplierEmployerEmail" ColumnName="SupplierEmployerEmail" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
+                <ScalarProperty Name="Trade" ColumnName="Trade" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="AccountBank" ColumnName="AccountBank" />
+                <ScalarProperty Name="Bank" ColumnName="Bank" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="AccDebit" ColumnName="AccDebit" />
+                <ScalarProperty Name="DebtNorm" ColumnName="DebtNorm" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="InValid" ColumnName="InValid" />
+                <ScalarProperty Name="Disable" ColumnName="Disable" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="TimeStampCode" ColumnName="TimeStampCode" />
+                <ScalarProperty Name="ClientCode" ColumnName="ClientCode" />
+                <ScalarProperty Name="SyncCode" ColumnName="SyncCode" />
+                <ScalarProperty Name="VisibleBit" ColumnName="VisibleBit" />
+                <ScalarProperty Name="DebitLimit" ColumnName="DebitLimit" />
+                <ScalarProperty Name="SumOffDebitDay" ColumnName="SumOffDebitDay" />
+                <ScalarProperty Name="BirthDay" ColumnName="BirthDay" />
+                <ScalarProperty Name="NumberOfContracts" ColumnName="NumberOfContracts" />
+                <ScalarProperty Name="FirstRevenue" ColumnName="FirstRevenue" />
+                <ScalarProperty Name="ContractDate" ColumnName="ContractDate" />
+                <ScalarProperty Name="CMND" ColumnName="CMND" />
+                <ScalarProperty Name="FormOfPayment" ColumnName="FormOfPayment" />
+                <ScalarProperty Name="StatusSupplier" ColumnName="StatusSupplier" />
+                <ScalarProperty Name="ContractEndDate" ColumnName="ContractEndDate" />
+                <ScalarProperty Name="IsShip" ColumnName="IsShip" />
+                <ScalarProperty Name="PhanTramCKDungHanTT" ColumnName="PhanTramCKDungHanTT" />
+                <ScalarProperty Name="PhanTramPhatTraCham" ColumnName="PhanTramPhatTraCham" />
+                <ScalarProperty Name="PhanTramCKMuaHang" ColumnName="PhanTramCKMuaHang" />
+                <ScalarProperty Name="HanMucTinDung" ColumnName="HanMucTinDung" />
+                <ScalarProperty Name="TargetNam" ColumnName="TargetNam" />
+                <ScalarProperty Name="ThuongNam" ColumnName="ThuongNam" />
+                <ScalarProperty Name="TargetQuy" ColumnName="TargetQuy" />
+                <ScalarProperty Name="ThuongQuy" ColumnName="ThuongQuy" />
+                <ScalarProperty Name="CKGoiHang" ColumnName="CKGoiHang" />
+                <ScalarProperty Name="HoTroTrungBay" ColumnName="HoTroTrungBay" />
+                <ScalarProperty Name="HoTroMarKeting" ColumnName="HoTroMarKeting" />
+                <ScalarProperty Name="AutoLogOnCode_LastUpdate_ById" ColumnName="AutoLogOnCode_LastUpdate_ById" />
+                <ScalarProperty Name="AutoLogOnCode_LastUpdate_ByFullName" ColumnName="AutoLogOnCode_LastUpdate_ByFullName" />
+                <ScalarProperty Name="AutoLogOnCode_LastUpdate_DateTime" ColumnName="AutoLogOnCode_LastUpdate_DateTime" />
+                <ScalarProperty Name="AutoLogOnCode_LastUpdate_IP" ColumnName="AutoLogOnCode_LastUpdate_IP" />
+                <ScalarProperty Name="AutoLogOnCode_LastUpdate_ComputerName" ColumnName="AutoLogOnCode_LastUpdate_ComputerName" />
+                <ScalarProperty Name="AutoLogOnCode_LastUpdate_MACAddress" ColumnName="AutoLogOnCode_LastUpdate_MACAddress" />
+                <ScalarProperty Name="ProvinceId" ColumnName="ProvinceId" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="WardId" ColumnName="WardId" />
+                <ScalarProperty Name="WardName" ColumnName="WardName" />
+                <ScalarProperty Name="Accounting_SubNumber" ColumnName="Accounting_SubNumber" />
+                <ScalarProperty Name="Accounting_Number" ColumnName="Accounting_Number" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="GrpSupplierId" ColumnName="GrpSupplierId" />
+                <ScalarProperty Name="Supplier_Offline_Id" ColumnName="Supplier_Offline_Id" />
+                <ScalarProperty Name="Supplier_Offline_Code" ColumnName="Supplier_Offline_Code" />
+                <ScalarProperty Name="Supplier_Offline_SyncCode" ColumnName="Supplier_Offline_SyncCode" />
+                <ScalarProperty Name="MixSupplierId" ColumnName="MixSupplierId" />
+                <ScalarProperty Name="BirthDay_ConvertVarChar" ColumnName="BirthDay_ConvertVarChar" />
+                <ScalarProperty Name="SupplierName_English" ColumnName="SupplierName_English" />
+                <ScalarProperty Name="RegionalId" ColumnName="RegionalId" />
+                <ScalarProperty Name="Supplier_BodyLookingId" ColumnName="Supplier_BodyLookingId" />
+                <ScalarProperty Name="TimeStampText" ColumnName="TimeStampText" />
+                <ScalarProperty Name="GrpSupplierCode" ColumnName="GrpSupplierCode" />
+                <ScalarProperty Name="FacebookURL" ColumnName="FacebookURL" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GrpSupplier4ReportId" ColumnName="GrpSupplier4ReportId" />
+                <ScalarProperty Name="SupplierNameOfficial" ColumnName="SupplierNameOfficial" />
+                <ScalarProperty Name="BehalfTitle" ColumnName="BehalfTitle" />
+                <ScalarProperty Name="BehalfName" ColumnName="BehalfName" />
+                <ScalarProperty Name="BehalfPosition" ColumnName="BehalfPosition" />
+                <ScalarProperty Name="AutoMap_KeyWords" ColumnName="AutoMap_KeyWords" />
+                <ScalarProperty Name="Log_CreatedDate" ColumnName="Log_CreatedDate" />
+                <ScalarProperty Name="Log_CreatedBy" ColumnName="Log_CreatedBy" />
+                <ScalarProperty Name="Log_UpdatedDate" ColumnName="Log_UpdatedDate" />
+                <ScalarProperty Name="Log_UpdatedBy" ColumnName="Log_UpdatedBy" />
+                <ScalarProperty Name="MappingDate" ColumnName="MappingDate" />
+                <ScalarProperty Name="MappingBy" ColumnName="MappingBy" />
+                <ScalarProperty Name="Address_Unsign" ColumnName="Address_Unsign" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zalo_LogError">
+            <EntityTypeMapping TypeName="Ajuma_DevModel.Zalo_LogError">
+              <MappingFragment StoreEntitySet="Zalo_LogError">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
+                <ScalarProperty Name="Param" ColumnName="Param" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="TimeStampText" ColumnName="TimeStampText" />
+                <ScalarProperty Name="Log_CreatedDate" ColumnName="Log_CreatedDate" />
+                <ScalarProperty Name="Log_CreatedBy" ColumnName="Log_CreatedBy" />
+                <ScalarProperty Name="Log_UpdatedDate" ColumnName="Log_UpdatedDate" />
+                <ScalarProperty Name="Log_UpdatedBy" ColumnName="Log_UpdatedBy" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetBillTransfer_Json" FunctionName="Ajuma_DevModel.Store.sp_GetBillTransfer_Json" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

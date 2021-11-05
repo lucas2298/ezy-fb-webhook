@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebReceiveMessageRealTime
+namespace WebReceiveMessageRealTime.Data
 {
     using System;
     using System.Collections.Generic;
@@ -34,6 +34,8 @@ namespace WebReceiveMessageRealTime
         public string Log_UpdatedBy { get; set; }
         public Nullable<decimal> CusMoneyNotTransferBefore { get; set; }
         public bool IsLikeBankTransfer { get; set; }
+        public byte[] TimeStamp { get; set; }
+        public string TimeStampText { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FBConversationDetail_ImageBillNotPaidMoment> FBConversationDetail_ImageBillNotPaidMoment { get; set; }
